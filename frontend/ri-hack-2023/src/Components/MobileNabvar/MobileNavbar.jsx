@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { List } from "@phosphor-icons/react";
 import { X } from "@phosphor-icons/react/dist/ssr";
 import "./MobileNavbar.scss";
+import Button from "../Button/Button";
 
 const NavbarMobile = () => {
   const [openNav, setOpenNav] = useState(false);
@@ -33,18 +34,20 @@ const NavbarMobile = () => {
       <nav className={openNav ? "nav-bar" : "hidden"} onClick={closeNav}>
         <ul>
           <li>
-            <Link to="/">Početna</Link>
+            <Link to="/">Homepage</Link>
           </li>
 
           <li>
-            <Link to="/druga">Neka druga</Link>
+            <Link to="/history">History</Link>
           </li>
 
           <li>
             {" "}
-            <Link to="/treca">Neka treca</Link>
+            <Link to="/my-profile">My profile</Link>
           </li>
         </ul>
+
+        <Button icon={"Hrc"}>Odjavi se</Button>
       </nav>
     </div>
   );

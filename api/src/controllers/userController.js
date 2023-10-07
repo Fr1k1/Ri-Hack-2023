@@ -3,6 +3,7 @@ import sharp from 'sharp'
 import { catchAsync } from '../utils/catchAsync.js'
 import { AppError } from '../errors/appError.js'
 import { exec } from '../db.js'
+import * as net from 'net'
 
 const multerStorage = multer.memoryStorage()
 
@@ -55,4 +56,18 @@ export const getCurrentUser = catchAsync(async (req, res) => {
     status: 'success',
     data: { user: req.user }
   })
+})
+
+export const deleteCurrentUser = catchAsync(async (req, res, next) => {
+  const { changes } = await exec('UPDATE user SET is_active = 0 WHERE id = ?', [req.user.id])
+
+  if (changes) {
+    res.clearCookie('jwt')
+    res.status(200).json({
+      status: 'success',
+      data: null
+    })
+  } else {
+    next(new AppError('Unable to log out. Please try again later.', 500))
+  }
 })

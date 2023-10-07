@@ -18,5 +18,6 @@ router.route('/current')
     userController.resizeUserPhoto,
     userController.updateCurrentUser
   )
+  .delete(userController.deleteCurrentUser)
 
 export default router

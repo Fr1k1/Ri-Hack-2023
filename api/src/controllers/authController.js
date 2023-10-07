@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken'
 import { catchAsync } from '../utils/catchAsync.js'
 import { AppError } from '../errors/appError.js'
 import { Email } from '../utils/email.js'
+import { encrypt } from '../utils/bcryptWrapper.js'
+import { exec } from '../db.js'
 
 const signJwt = ({ email }) => new Promise((resolve, reject) => {
   jwt.sign({ email }, process.env.JWT_SECRET, {
@@ -33,13 +35,20 @@ const createSendJwt = async (user, req, res, statusCode = 200) => {
   })
 }
 
-export const signUp = catchAsync(async (req, res) => {
+export const signUp = catchAsync(async (req, res, next) => {
   const { firstName, lastName, email, password, passwordConfirm } = req.body
 
-  // TODO: insert user, hash password, check password
-  const user = { firstName, lastName, email, password, passwordConfirm }
+  if (password !== passwordConfirm) {
+    return next(new AppError('Passwords not matching.', 404))
+  }
 
-  await new Email(user, `${req.protocol}://${req.get('host')}/me`).sendWelcome()
+  const hashedPassword = await encrypt(password)
+  const user = await exec('INSERT INTO user (first_name, last_name, email, password) VALUES (?, ?, ?, ?);', [firstName, lastName, email, hashedPassword])
+  const users = await exec('SELECT * FROM user')
+  console.info({ users })
+
+  // TODO: implement Email
+  // await new Email(user, `${req.protocol}://${req.get('host')}/me`).sendWelcome()
 
   await createSendJwt(user, req, res, 201)
 })

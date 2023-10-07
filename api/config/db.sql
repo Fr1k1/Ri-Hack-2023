@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS user(
     photo VARCHAR(64),
     is_active INTEGER DEFAULT 1,
     blocked_until DATETIME,
-    ratings_average REAL NOT NULL,
-    ratings_quantity INTEGER NOT NULL,
+    ratings_average REAL DEFAULT 0,
+    ratings_quantity INTEGER DEFAULT 0,
     email VARCHAR(64) UNIQUE NOT NULL
 );
 
@@ -44,3 +44,13 @@ CREATE TABLE IF NOT EXISTS task_user(
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (task_id) REFERENCES task(id)
 );
+
+INSERT OR IGNORE INTO task_status (name) VALUES
+    ('pending'),
+    ('full'),
+    ('missed'),
+    ('completed');
+INSERT OR IGNORE INTO task_difficulty (name) VALUES
+    ('easy'),
+    ('medium'),
+    ('hard');

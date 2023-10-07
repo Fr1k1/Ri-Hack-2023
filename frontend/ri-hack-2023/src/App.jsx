@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "./Components/Input/Input";
 import { Route, Routes } from "react-router-dom";
 import Button from "./Components/Button/Button";
+import MobileNavbar from "./Components/MobileNabvar/MobileNavbar";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           element={<Input placeholder={"plc"} label={"Lbl"} />}
         ></Route>
 
-        <Route path="/" element={<Button>Gumb</Button>}></Route>
+        <Route path="/" element={<MobileNavbar />}></Route>
       </Routes>
     </>
   );

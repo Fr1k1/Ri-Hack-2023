@@ -1,0 +1,31 @@
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 1px;
+
+  a {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    font-size: 28px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  li {
+    padding: 16px;
+    border-bottom: 1px solid white;
+  }
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.nav-bar {
+  background-color: #6866ad;
+}

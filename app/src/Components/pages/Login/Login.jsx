@@ -35,7 +35,7 @@ const Login = () => {
       const response = await loginUser(user);
       localStorage.setItem("token", response.token);
       console.log("Uspjesno prijavljen");
-      navigate("/homepage");
+      navigate("/");
       //notifySuccess("Uspješno dodano osoblje");
       //console.log("Tenant submitted successfully");
     } catch (error) {

@@ -21,8 +21,7 @@ const NavbarMobile = () => {
 
   const isAddJobPage = location.pathname === "/add-task";
 
-  const isHomepage =
-    location.pathname === "/homepage" || location.pathname === "/";
+  const isHomepage = location.pathname === "/" || location.pathname === "/";
 
   const isProfilePage = location.pathname === "/my-profile";
 
@@ -47,13 +46,12 @@ const NavbarMobile = () => {
           size={32}
           color="white"
         ></X>
-
         <div className="dynamic-header-text-wrapper">
           <h2>
             {isAddJobPage
               ? "Add new task"
               : isHomepage
-              ? "Homepage"
+              ? "Welcome back!"
               : isProfilePage
               ? "About me"
               : isChoresPage
@@ -66,23 +64,18 @@ const NavbarMobile = () => {
           </h2>
         </div>
       </div>
-
       <nav className={openNav ? "nav-bar" : "hidden"} onClick={closeNav}>
         <ul>
           <li>
-            <Link to="/homepage">Homepage</Link>
+            <Link to="/">Homepage</Link>
           </li>
-
           <li>
             <Link to="/history">History</Link>
           </li>
-
           <li>
-            {" "}
             <Link to="/my-profile">My profile</Link>
           </li>
         </ul>
-
         <Button icon={"Hrc"}>Odjavi se</Button>
       </nav>
     </div>

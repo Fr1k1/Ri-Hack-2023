@@ -1,6 +1,5 @@
 import { exec } from '../db.js'
 import { AppError } from '../errors/appError.js'
-import * as factory from './handlerFactory.js'
 import { catchAsync } from '../utils/catchAsync.js'
 
 export const getAllTasks = catchAsync(async (req, res, next) => {
@@ -33,17 +32,17 @@ export const getAllTasks = catchAsync(async (req, res, next) => {
   }
 
   for (let i = 0; i < documents.length; i++) {
-    documents[i].user = (await exec("SELECT * FROM user WHERE id = ?", [documents[i].user_id]))[0]
+    documents[i].user = (await exec('SELECT * FROM user WHERE id = ?', [documents[i].user_id]))[0]
   }
 
   res.status(200).json({
     status: 'success',
     results: documents.length,
     data: {
-      tasks: documents,
+      tasks: documents
     }
   })
-});
+})
 
 
 function isValidDate(date) {
@@ -71,7 +70,8 @@ export const getTask = catchAsync(async (req, res, next) => {
     return next(new AppError(`No task found with id '${id}'.`, 404))
   }
 
-  document.user = (await exec("SELECT * FROM user WHERE id = ?", [document.user_id]))[0]
+  document.user = (await exec('SELECT * FROM user WHERE id = ?', [document.user_id]))[0]
+
   res.status(200).json({
     status: 'success',
     data: { task: document }
@@ -98,14 +98,23 @@ export const createTask = catchAsync(async (req, res, next) => {
 })
 
 export const addUserToTask = catchAsync(async (req, res, next) => {
-  const { taskId, userId } = req.params
+  const { taskId } = req.params
+  const userId = req.user.id
+  console.log(taskId)
 
+  console.log(userId)
   const fetchedTask = (await exec('SELECT * FROM task WHERE id = ?', [taskId]))[0]
   const userTasks = await exec('SELECT * FROM task_user WHERE task_id = ?', [taskId])
+
+  if (!fetchedTask) {
+    return next(new AppError("Task doesn't exist.", 404))
+  }
 
   if (!taskId || !userId) {
     return next(new AppError('Insufficient parameters.', 422))
   }
+
+  console.log(fetchedTask)
 
   if (userId == fetchedTask.user_id) {
     return next(new AppError('User who added task can\'t work in it.'))

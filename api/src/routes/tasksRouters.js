@@ -24,7 +24,9 @@ router.route('/:id')
     tasksController.deleteTask
   )
 
-router.route('/:taskId/users/:userId')
-  .post(tasksController.addUserToTask)
+router.route('/:taskId')
+  .post(authController.authenticate,
+    tasksController.addUserToTask
+  )
 
 export default router

@@ -1,0 +1,40 @@
+.login-page-wrapper {
+  padding-top: 100px;
+  //background-color: red;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+  img {
+    height: 250px;
+  }
+}
+
+.login-form-wrapper {
+  //background-color: blue;
+  height: 100%; //fill available space
+  width: 100%;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .input-main {
+    margin-bottom: 16px;
+  }
+}
+
+.forgot-password-wrapper {
+  //background-color: red;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+
+  h4 {
+    font-weight: 400;
+    text-decoration: underline;
+  }
+}

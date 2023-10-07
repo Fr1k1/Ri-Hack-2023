@@ -11,9 +11,10 @@ import "leaflet/dist/leaflet.css";
 const AddNewTask = () => {
   const [latLng, setLatLng] = useState({});
   const [marker, setMarker] = useState([45.40473607821249, 16.34990858459468]);
+
   const [task, setTaskData] = useState({
     name: "",
-    reward: "",
+    reward: 0,
     statusId: 1,
     groupSize: "",
     description: "",
@@ -24,6 +25,21 @@ const AddNewTask = () => {
     lat: marker[0],
     lng: marker[1],
   });
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setMarker([position.coords.latitude, position.coords.longitude]);
+        },
+        (error) => {
+          console.error("Error getting geolocation:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   const addNewTask = async () => {
     console.log(task);
@@ -133,7 +149,7 @@ const AddNewTask = () => {
       <div style={{ height: "220px", margin: "24px 0" }}>
         <MapContainer
           center={marker}
-          zoom={7}
+          zoom={6}
           scrollWheelZoom={false}
           id="map-container"
           style={{ height: "100%", minHeight: "100%" }}

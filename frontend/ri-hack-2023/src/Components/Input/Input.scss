@@ -1,0 +1,20 @@
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-main {
+  background-color: #eaeaea;
+  border-radius: 8px;
+  padding: 8px;
+  border: 1px solid #0276b4;
+  width: 100%;
+  color: #898989;
+  outline: none;
+}
+
+.label-main {
+  color: #898989;
+  margin-bottom: 8px;
+  font-weight: 500;
+}

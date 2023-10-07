@@ -1,9 +1,10 @@
 import { useState } from "react";
+import Input from "./Components/Input/Input";
 
 function App() {
   return (
     <>
-      <h1>Pocetna stranica</h1>
+      <Input placeholder={"plcholder"} label={"Ovo je label"} />
     </>
   );
 }

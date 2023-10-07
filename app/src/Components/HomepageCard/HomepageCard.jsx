@@ -6,7 +6,7 @@ const HomepageCard = ({ icon, text, path }) => {
   return (
     <Link to={path}>
       <div className="homepage-card-wrapper">
-        <img src={icon} alt="" />
+        <img src={icon} alt="" className="homepage-card-wrapper-image" />
         <h4>{text}</h4>
       </div>
     </Link>

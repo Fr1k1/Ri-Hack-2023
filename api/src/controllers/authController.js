@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { catchAsync } from '../utils/catchAsync.js'
 import { AppError } from '../errors/appError.js'
 import { Email } from '../utils/email.js'
-import { encrypt } from '../utils/bcryptWrapper.js'
+import { compare, encrypt } from '../utils/bcryptWrapper.js'
 import { exec } from '../db.js'
 
 const signJwt = ({ email }) => new Promise((resolve, reject) => {
@@ -42,13 +42,18 @@ export const signUp = catchAsync(async (req, res, next) => {
     return next(new AppError('Passwords not matching.', 404))
   }
 
-  const hashedPassword = await encrypt(password)
-  const user = await exec('INSERT INTO user (first_name, last_name, email, password) VALUES (?, ?, ?, ?);', [firstName, lastName, email, hashedPassword])
-  const users = await exec('SELECT * FROM user')
-  console.info({ users })
+  const usersWithExistingEmail = await exec('SELECT * FROM user WHERE email = ?', [email])
+  if (usersWithExistingEmail.length === 1) {
+    return next(new AppError('User with the same email already exists.', 404))
+  }
 
-  // TODO: implement Email
-  // await new Email(user, `${req.protocol}://${req.get('host')}/me`).sendWelcome()
+  const hashedPassword = await encrypt(password)
+
+  const { lastID } = await exec('INSERT INTO user (first_name, last_name, email, password) VALUES (?, ?, ?, ?);', [firstName, lastName, email, hashedPassword])
+  const users = await exec('SELECT * FROM user WHERE id = ?', [lastID])
+  const user = users[0]
+
+  await new Email(user, `${req.protocol}://${req.get('host')}/me`).sendWelcome()
 
   await createSendJwt(user, req, res, 201)
 })
@@ -60,13 +65,11 @@ export const login = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide email and password.'))
   }
 
-  // TODO: find user
-  // const user = await UserModel.findOne({ email }).select('+password')
+  const user = (await exec('SELECT * FROM user WHERE email = ?', [email]))[0]
 
-  // TODO: check password
-  // if (!user || !(await user.checkPassword(password))) {
-  // return next(new AppError(`Incorrect email or password.`, 401))
-  //
+  if (!user || !(await compare(password, user.password))) {
+    return next(new AppError(`Incorrect email or password.`, 401))
+  }
 
   await createSendJwt(user, req, res)
 })

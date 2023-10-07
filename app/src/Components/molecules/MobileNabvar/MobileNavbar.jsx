@@ -19,7 +19,7 @@ const NavbarMobile = () => {
 
   const location = useLocation();
 
-  const isAddJobPage = location.pathname === "/add-job";
+  const isAddJobPage = location.pathname === "/add-task";
 
   const isHomepage =
     location.pathname === "/homepage" || location.pathname === "/";
@@ -45,7 +45,7 @@ const NavbarMobile = () => {
         <div className="dynamic-header-text-wrapper">
           <h2>
             {isAddJobPage
-              ? "Dodaj posao"
+              ? "Add new task"
               : isHomepage
               ? "Homepage"
               : isProfilePage

@@ -45,6 +45,22 @@ export async function loginUser(userData) {
   return responseData;
 }
 
+export async function addTask(data) {
+  const response = await fetch(`${api}/v1/tasks`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  const responseData = await response.json();
+  if (!response.ok) {
+    throw new Error("Failed to add new task");
+  }
+  return responseData;
+}
+
 export const getAllTasks = () => {
   return fetch(`${api}/v1/tasks`, {
     headers: {
@@ -87,7 +103,7 @@ export async function getLoggedUser() {
   const response = await fetch(`${api}/v1/users/current`, {
     method: "GET",
     headers: {
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 

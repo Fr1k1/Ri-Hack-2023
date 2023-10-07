@@ -98,7 +98,6 @@ const TaskDetails = () => {
             <p>Difficulty: {task.difficulty_id}</p>
           </div>
 
-          <p>Mapa</p>
           <div style={{ height: "220px" }}>
             <MapContainer
               center={[task.lat, task.lng]}

@@ -23,6 +23,7 @@ const Input = ({
         className={`input-main ${isDisabled ? "disabled" : ""}`}
         onChange={onChange}
         disabled={isDisabled}
+        value={defaultValue}
       />
     </div>
   );

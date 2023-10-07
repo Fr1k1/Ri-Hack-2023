@@ -1,3 +1,4 @@
+import React from "react";
 import "./TaskOfferUserCard.scss";
 import noImage from "../../../assets/user.png";
 

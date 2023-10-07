@@ -13,7 +13,7 @@ import userRouter from './routes/userRoutes.js'
 import { AppError } from './errors/appError.js'
 import errorHandler from './errors/errorHandler.js'
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -24,10 +24,11 @@ app.use(express.static(path.join(__dirname, '..', 'public')))
 // allow requests from localhost:5173
 const corsOptions = {
   origin: 'http://localhost:5173',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true
+}
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
 
 // sets API request limit
 app.use('/api', rateLimit({

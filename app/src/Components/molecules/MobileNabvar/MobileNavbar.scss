@@ -28,5 +28,26 @@ ul {
 
 .nav-bar {
   background-color: #6866ad;
-  margin-bottom: 16px;
+  padding-bottom: 16px;
+}
+
+.icons {
+  padding: 16px;
+  background-color: #6866ad;
+  display: flex;
+  position: relative;
+}
+
+.dynamic-header-text-wrapper {
+  // background-color: blue;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconBar {
+  position: absolute;
+  left: 8px;
+  top: 14px;
 }

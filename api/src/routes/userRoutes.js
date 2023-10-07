@@ -13,10 +13,10 @@ router.use(authController.authenticate)
 
 router.route('/current')
   .get(userController.getCurrentUser)
-  /*  .patch(
-      userController.uploadUserPhoto,
-      userController.resizeUserPhoto,
-      userController.updateCurrentUser
-    )*/
+  .patch(
+    userController.uploadUserPhoto,
+    userController.resizeUserPhoto,
+    userController.updateCurrentUser
+  )
 
 export default router

@@ -11,7 +11,11 @@ import user from "../../../assets/user.png";
 import Input from "../../atoms/Input";
 import "./Profile.scss";
 import Button from "../../atoms/Button";
-import { editLoggedUser, getLoggedUser } from "../../../api/api";
+import {
+  deleteLoggedUser,
+  editLoggedUser,
+  getLoggedUser,
+} from "../../../api/api";
 
 const Profile = () => {
   const [loggedUser, setLoggedUser] = useState(null);
@@ -21,7 +25,8 @@ const Profile = () => {
     console.log("edit");
     setIsEdit(!isEdit);
   };
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    await deleteLoggedUser();
     console.log("delete");
   };
   const handleSaveChanges = async () => {

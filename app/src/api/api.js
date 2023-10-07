@@ -131,3 +131,22 @@ export async function editLoggedUser(userData) {
 
   return responseData;
 }
+
+export async function deleteLoggedUser() {
+  const response = await fetch(`${api}/v1/users/current`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const responseData = await response.json();
+
+  console.log("Uspjesna dobivanja usera");
+
+  if (!response.ok) {
+    throw new Error("Failed to get logged user");
+  }
+
+  return responseData;
+}

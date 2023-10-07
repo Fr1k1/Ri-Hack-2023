@@ -3,6 +3,7 @@ import "./Login.scss";
 import Runner from "../../../assets/jogging.png";
 import Input from "../../atoms/Input";
 import Button from "../../atoms/Button";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -19,6 +20,13 @@ const Login = () => {
           </div>
           <Button>Login</Button>
         </form>
+
+        <div className="no-account-wrapper">
+          No account?{" "}
+          <span>
+            <Link to="/register">Register</Link>
+          </span>
+        </div>
       </div>
     </div>
   );

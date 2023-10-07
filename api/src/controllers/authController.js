@@ -53,8 +53,7 @@ export const signUp = catchAsync(async (req, res, next) => {
   const users = await exec('SELECT * FROM user WHERE id = ?', [lastID])
   const user = users[0]
 
-  // TODO: implement Email
-  // await new Email(user, `${req.protocol}://${req.get('host')}/me`).sendWelcome()
+  await new Email(user, `${req.protocol}://${req.get('host')}/me`).sendWelcome()
 
   await createSendJwt(user, req, res, 201)
 })

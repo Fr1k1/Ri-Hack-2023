@@ -69,8 +69,8 @@ export const createTask = catchAsync(async (req, res, next) => {
         return next(new AppError('Missing task info.', 422))
     }
 
-    const { lastID } = await exec('INSERT INTO task(name, reward, description, group_size, lat, lng, start_date, end_date, status_id, difficulty_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [task.name, task.reward, task.description, task.groupSize, task.lat, task.lng, task.startDate, task.endDate, task.statusId, task.difficultyId, req.user.id])
-    const newTask = (await exec('SELECT * FROM task WHERE id = ?', [lastID]))[0]
+  const { lastID } = await exec('INSERT INTO task(name, reward, description, group_size, lat, lng, start_date, end_date, is_activity, status_id, difficulty_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', [task.name, task.reward, task.description, task.groupSize, task.lat, task.lng, task.startDate, task.endDate, task.isActivity, task.statusId, task.difficultyId, req.user.id])
+  const newTask = (await exec('SELECT * FROM task WHERE id = ?;', [lastID]))[0]
 
     res.status(201).json({
         status: 'success',
@@ -198,8 +198,23 @@ export const getTasksWithin = catchAsync(async (req, res, next) => {
 })
 
 const extractTaskFromReq = (req) => {
-    const { id } = req.params
-    const { statusId, difficultyId, name, reward, description, groupSize, lat, lng, startDate, endDate } = req.body
+  const { id } = req.params
+  const {
+    statusId,
+    difficultyId,
+    name,
+    reward,
+    description,
+    groupSize,
+    lat,
+    lng,
+    startDate,
+    endDate,
+    isActivity
+  } = req.body
 
-    return { id, statusId, difficultyId, name, reward, description, groupSize, lat, lng, startDate, endDate }
+  const task = { id, statusId, difficultyId, name, reward, description, groupSize, lat, lng, startDate, endDate, isActivity }
+  task.isActivity = isActivity == null ? 1 : isActivity
+
+  return task
 }

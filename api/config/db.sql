@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS task(
     lng REAL NOT NULL,
     start_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,
+    is_activity INTEGER DEFAULT 1,
     FOREIGN KEY(status_id) REFERENCES task_status(id),
     FOREIGN KEY (difficulty_id) REFERENCES task_difficulty(id),
     FOREIGN KEY (user_id) REFERENCES user(id)

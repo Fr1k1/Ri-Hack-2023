@@ -9,16 +9,16 @@ router.get('/within/:distance/center/:latlng/unit/:unit', tasksController.getTas
 router.route('/')
   .get(tasksController.getAllTasks)
   .post(
-    //authController.authenticate,
+    authController.authenticate,
     tasksController.createTask
   )
 
 router.route('/:id')
   .get(tasksController.getTask)
-  // .patch(
-  //   authController.authenticate,
-  //   tasksController.updateTask
-  // )
+  .patch(
+    authController.authenticate,
+    tasksController.updateTask
+  )
   .delete(
     authController.authenticate,
     tasksController.deleteTask
@@ -26,6 +26,5 @@ router.route('/:id')
 
 //router.route('/:idTask/users/:idUser')
 //.post(tasksController.addUserToTask)
-
 
 export default router

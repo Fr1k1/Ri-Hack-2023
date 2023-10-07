@@ -20,4 +20,7 @@ router.route('/current')
   )
   .delete(userController.deleteCurrentUser)
 
+router.route('/current/task-history')
+  .get(userController.getCurrentTaskHistory)
+
 export default router

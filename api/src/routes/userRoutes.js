@@ -13,11 +13,11 @@ router.use(authController.authenticate)
 
 router.route('/current')
   .get(userController.getCurrentUser, userController.getUser)
-/*  .patch(
-    userController.uploadUserPhoto,
-    userController.resizeUserPhoto,
-    userController.updateCurrentUser
-  )*/
+  /*  .patch(
+      userController.uploadUserPhoto,
+      userController.resizeUserPhoto,
+      userController.updateCurrentUser
+    )*/
   .delete(userController.deleteCurrentUser)
 
 export default router

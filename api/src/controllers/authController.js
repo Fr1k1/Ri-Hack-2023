@@ -102,14 +102,6 @@ const authenticateToken = async (token, req, next) => {
   const decoded = await verifyJwt(token)
   const email = decoded.email
 
-  // TODO: find current user
-  // const currentUser = await UserModel.findById(decoded.id)
-  const currentUser = { email }
-
-  if (currentUser) {
-    req.user = currentUser
-    return next()
-  }
-
-  return next(new AppError('The user no longer exists.', 401))
+  req.user = (await exec('SELECT * FROM user WHERE email = ?', [email]))[0]
+  next()
 }

@@ -39,3 +39,21 @@ export async function loginUser(userData) {
 
   return responseData;
 }
+
+export const getAllTasks = () => {
+  return fetch(`${api}/v1/tasks`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    })
+    .catch((error) => {
+      console.error("Error fetching tasks:", error);
+      return [];
+    });
+};

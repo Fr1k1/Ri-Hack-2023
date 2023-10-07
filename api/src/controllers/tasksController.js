@@ -72,6 +72,7 @@ export const getTask = catchAsync(async (req, res, next) => {
   }
 
   document.user = (await exec("SELECT * FROM user WHERE id = ?", [document.user_id]))[0]
+
   res.status(200).json({
     status: 'success',
     data: { task: document }
@@ -98,8 +99,9 @@ export const createTask = catchAsync(async (req, res, next) => {
 })
 
 export const addUserToTask = catchAsync(async (req, res, next) => {
-  const { taskId, userId } = req.params
-
+  const { taskId } = req.params
+  const userId = req.user.id
+  
   const fetchedTask = (await exec('SELECT * FROM task WHERE id = ?', [taskId]))[0]
   const userTasks = await exec('SELECT * FROM task_user WHERE task_id = ?', [taskId])
 

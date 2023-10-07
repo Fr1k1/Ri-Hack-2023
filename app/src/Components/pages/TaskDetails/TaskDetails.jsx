@@ -31,8 +31,10 @@ const TaskDetails = () => {
   const getTaskData = async (id) => {
     console.log(id);
     const currentTask = await getTaskById(id);
-    console.log(currentTask.data.task[0]);
-    setTask(currentTask.data.task[0]);
+    console.log(currentTask);
+
+    console.log(currentTask.data.task);
+    setTask(currentTask.data.task);
     console.log(task);
   };
 

@@ -31,6 +31,9 @@ const NavbarMobile = () => {
 
   const isHistoryPage = location.pathname === "/history";
 
+  const isActivityDetailsPage =
+    location.pathname.startsWith("/tasks") && location.pathname !== "/tasks";
+
   return (
     <div>
       <div className="icons">
@@ -60,6 +63,8 @@ const NavbarMobile = () => {
               ? "Activities"
               : isHistoryPage
               ? "History"
+              : isActivityDetailsPage
+              ? "Details"
               : "Nest drugo"}
           </h2>
         </div>

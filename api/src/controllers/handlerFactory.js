@@ -6,7 +6,7 @@ export const getOne = (resource) =>
   catchAsync(async (req, res, next) => {
     const { id } = req.params
 
-    const document = await exec(`SELECT * FROM ${resource} WHERE id = ?`, [id])
+    const document = (await exec(`SELECT * FROM ${resource} WHERE id = ?`, [id]))[0]
 
     if (!document) {
       return next(new AppError(`No ${resource} found with id '${id}'.`, 404))

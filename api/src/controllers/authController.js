@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { catchAsync } from '../utils/catchAsync.js'
 import { AppError } from '../errors/appError.js'
 import { Email } from '../utils/email.js'
-import { encrypt } from '../utils/bcryptWrapper.js'
+import { compare, encrypt } from '../utils/bcryptWrapper.js'
 import { exec } from '../db.js'
 
 const signJwt = ({ email }) => new Promise((resolve, reject) => {
@@ -65,13 +65,11 @@ export const login = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide email and password.'))
   }
 
-  // TODO: find user
-  // const user = await UserModel.findOne({ email }).select('+password')
+  const user = (await exec('SELECT * FROM user WHERE email = ?', [email]))[0]
 
-  // TODO: check password
-  // if (!user || !(await user.checkPassword(password))) {
-  // return next(new AppError(`Incorrect email or password.`, 401))
-  //
+  if (!user || !(await compare(password, user.password))) {
+    return next(new AppError(`Incorrect email or password.`, 401))
+  }
 
   await createSendJwt(user, req, res)
 })

@@ -10,9 +10,9 @@ const Button = ({ onClick, children, type = "button", icon, isRed }) => {
           <button
             onClick={onClick}
             type={type}
-            className={`button-with-icon ${isRed ? "isRed" : ""}`}
+            className={`button-with-icon ${isRed ? "isRed" : ""} ${icon ? "small" : ""}`}
           >
-            <SignOut size={32} /> {children}
+            <SignOut size={24} /> {children}
           </button>
         </div>
       ) : (

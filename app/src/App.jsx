@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./Components/templ/MainLayout";
 import Input from "./Components/atoms/Input";
-import TaskOfferUserCard from "./Components/TaskOfferUserCard/TaskOfferUserCard";
 
 function App() {
   return (

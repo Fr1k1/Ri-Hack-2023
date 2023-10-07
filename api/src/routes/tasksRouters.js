@@ -4,7 +4,7 @@ import * as authController from '../controllers/authController.js'
 
 const router = express.Router()
 
-router.get('/within/:distance/center/:latlng/unit/:unit', tasksController.getTasksWithin)
+router.get('/within/:distance/center/:latlng', tasksController.getTasksWithin)
 
 router.route('/')
   .get(tasksController.getAllTasks)

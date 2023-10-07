@@ -3,7 +3,6 @@ import sharp from 'sharp'
 import { catchAsync } from '../utils/catchAsync.js'
 import { AppError } from '../errors/appError.js'
 import { exec } from '../db.js'
-import * as net from 'net'
 
 const multerStorage = multer.memoryStorage()
 

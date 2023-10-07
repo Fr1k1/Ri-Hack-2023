@@ -3,7 +3,32 @@ import { AppError } from '../errors/appError.js'
 import * as factory from './handlerFactory.js'
 import { catchAsync } from '../utils/catchAsync.js'
 
-export const getAllTasks = factory.getAll('task')
+export const getAllTasks = catchAsync(async (resource) =>
+    catchAsync(async (req, res) => {
+        let documents
+
+        if (req.query.hasOwnProperty("dateFrom") && !req.query.hasOwnProperty("dateTo")) {
+            documents = await exec(`SELECT * FROM ${resource} WHERE dateFrom >= ${req.query.dateFrom};`)
+        }
+        else if (!req.query.hasOwnProperty("dateFrom") && req.query.hasOwnProperty("dateTo")) {
+            documents = await exec(`SELECT * FROM ${resource} WHERE dateTo <= ${req.query.dateTo};`)
+        }
+        else if (req.query.hasOwnProperty("dateFrom") && req.query.hasOwnProperty("dateTo")) {
+            if (req.query.dateFrom > req.query.dateTo)
+                return next(new AppError("'Date from' can't be bigger than 'date to'", 422))
+            documents = await exec(`SELECT * FROM ${resource} WHERE dateFrom >= ${req.query.dateFrom} AND dateTo <= ${req.query.dateTo};`)
+        }
+        else {
+            documents = await exec(`SELECT * FROM ${resource};`)
+        }
+        
+        res.status(200).json({
+            status: 'success',
+            results: documents.length,
+            data: { [`${resource + "s"}`]: documents }
+        })
+    }))
+
 export const getTask = factory.getOne('task')
 
 export const createTask = catchAsync(async (req, res, next) => {
@@ -101,7 +126,9 @@ export const deleteTask = async (req, res, next) => {
 }
 
 // TODO: implement
-export const getTasksWithin = (req, res) => 1
+export const getTasksWithin = (req, res, next) => {
+}
+
 
 const extractTaskFromReq = (req) => {
     const { id } = req.params

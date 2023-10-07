@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Input.scss";
 
 const Input = ({ placeholder, label, type = "text", onChange }) => {

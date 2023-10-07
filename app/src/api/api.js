@@ -87,7 +87,7 @@ export async function getLoggedUser() {
   const response = await fetch(`${api}/v1/users/current`, {
     method: "GET",
     headers: {
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -101,6 +101,32 @@ export async function getLoggedUser() {
 
   if (!response.ok) {
     throw new Error("Failed to get logged user");
+  }
+
+  return responseData;
+}
+
+export async function editLoggedUser(userData) {
+  const formData = new FormData();
+
+  for (const key in userData) {
+    formData.append(key, userData[key]);
+  }
+
+  const response = await fetch(`${api}/v1/users/current`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  const responseData = await response.json();
+
+  console.log("Successful user edit");
+
+  if (!response.ok) {
+    throw new Error("Failed to edit logged user");
   }
 
   return responseData;

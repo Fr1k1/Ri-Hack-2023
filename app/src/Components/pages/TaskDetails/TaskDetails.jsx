@@ -98,11 +98,10 @@ const TaskDetails = () => {
             <p>Difficulty: {task.difficulty_id}</p>
           </div>
 
-          <p>Mapa</p>
           <div style={{ height: "220px" }}>
             <MapContainer
               center={[task.lat, task.lng]}
-              zoom={13}
+              zoom={10}
               scrollWheelZoom={false}
               id="map-container"
               style={{ height: "100%", minHeight: "100%" }}

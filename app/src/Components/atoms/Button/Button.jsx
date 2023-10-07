@@ -2,17 +2,25 @@ import React from "react";
 import "./Button.scss";
 import { SignOut } from "@phosphor-icons/react";
 
-const Button = ({ onClick, children, type = "button", icon }) => {
+const Button = ({ onClick, children, type = "button", icon, isRed }) => {
   return (
     <React.Fragment>
       {icon ? (
         <div className="button-with-icon-wrapper">
-          <button onClick={onClick} type={type} className="button-with-icon">
+          <button
+            onClick={onClick}
+            type={type}
+            className={`button-with-icon ${isRed ? "isRed" : ""}`}
+          >
             <SignOut size={32} /> {children}
           </button>
         </div>
       ) : (
-        <button onClick={onClick} type={type} className="button-without-icon">
+        <button
+          onClick={onClick}
+          type={type}
+          className={`button-without-icon ${isRed ? "isRed" : ""}`}
+        >
           {children}
         </button>
       )}

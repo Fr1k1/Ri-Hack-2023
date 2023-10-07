@@ -1,23 +1,20 @@
-import { useState } from "react";
-import Input from "./Components/Input/Input";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Button from "./Components/Button/Button";
-import MobileNavbar from "./Components/MobileNabvar/MobileNavbar";
+import MainLayout from "./Components/templ/MainLayout";
+import Input from "./Components/atoms/Input";
 import TaskOfferUserCard from "./Components/TaskOfferUserCard/TaskOfferUserCard";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/login"
-          element={<Input placeholder={"plc"} label={"Lbl"} />}
-        ></Route>
-        <Route
-          path="/tasks"
-          element={<TaskOfferUserCard user={user} />}
-        ></Route>
-        <Route path="/" element={<MobileNavbar />}></Route>
+        <Route path="/" element={<MainLayout />}>
+          <Route
+            path="/login"
+            element={<Input placeholder={"plc"} label={"Lbl"} />}
+          />
+          <Route path="/krec" element={<h1>something</h1>} />
+        </Route>
       </Routes>
     </>
   );

@@ -1,6 +1,8 @@
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 import morgan from 'morgan'
+import * as path from 'path'
+import { fileURLToPath } from 'url'
 import ms from 'ms'
 import cookieParser from 'cookie-parser'
 import compression from 'compression'
@@ -11,19 +13,13 @@ import userRouter from './routes/userRoutes.js'
 import { AppError } from './errors/appError.js'
 import errorHandler from './errors/errorHandler.js'
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 const app = express()
 
-// sets secure HTTP response headers
-/*app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      'script-src': ['\'self\'', 'https://unpkg.com/', 'https://js.stripe.com/'],
-      'img-src': ['\'self\'', 'blob:', 'data:', 'https:'],
-      'frame-src': ['\'self\'', 'https://js.stripe.com/']
-    }
-  }
-}))*/
+app.use(express.static(path.join(__dirname, '..', 'public')))
 
 // allow requests from localhost:5173
 const corsOptions = {

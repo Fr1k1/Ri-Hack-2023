@@ -39,3 +39,28 @@ export async function loginUser(userData) {
 
   return responseData;
 }
+
+let otherParam = { credentials: "include" };
+
+export async function getLoggedUser() {
+  const response = await fetch(`${api}/v1/users/current`, otherParam, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  // const cookies = response.headers.get("set-cookie");
+  // // Set the cookie in the browser's cookie storage
+  // document.cookie = cookies;
+
+  const responseData = await response.json();
+
+  console.log("Uspjesna dobivanja usera");
+
+  if (!response.ok) {
+    throw new Error("Failed to get logged user");
+  }
+
+  return responseData;
+}

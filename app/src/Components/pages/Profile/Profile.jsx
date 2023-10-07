@@ -11,6 +11,7 @@ import user from "../../../assets/user.png";
 import Input from "../../atoms/Input";
 import "./Profile.scss";
 import Button from "../../atoms/Button";
+import { getLoggedUser } from "../../../api/api";
 
 const Profile = () => {
   const [loggedUser, setLoggedUser] = useState({
@@ -21,10 +22,16 @@ const Profile = () => {
     ratingsQuantity: "",
     image: "",
   });
-  const [defaultUserData, setDefaultUserData] = useState({
-    firstName: "",
-    lastName: "",
-  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userProfileData = await getLoggedUser();
+        setLoggedUser(userProfileData);
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
 
   const [isEdit, setIsEdit] = useState(false);
   const handleEdit = () => {
@@ -41,33 +48,14 @@ const Profile = () => {
   const cancelChanges = () => {
     // TODO return data to default
     setLoggedUser({
-      firstName: defaultUserData.firstName,
-      lastName: defaultUserData.lastName,
-      email: "m@gmail.com",
-      ratingsAverage: "4.8",
-      ratingsQuantity: "50",
-      image: defaultUserData.image,
-    });
-  };
-
-  useEffect(() => {
-    // TODO fetch user data
-
-    setLoggedUser({ 
-      firstName: "Mirko",
-      lastName: "Filipovic",
-      email: "m@gmail.com",
-      ratingsAverage: "4.8",
-      ratingsQuantity: "50",
-      image: "",
-    });
-    console.log(loggedUser);
-
-    setDefaultUserData({
       firstName: loggedUser.firstName,
       lastName: loggedUser.lastName,
+      email: loggedUser.email,
+      ratingsAverage: loggedUser.ratingsAverage,
+      ratingsQuantity: loggedUser.ratingsQuantity,
+      //image: defaultUserData.image,
     });
-  }, []);
+  };
 
   return (
     <div className="profile-wrapper">

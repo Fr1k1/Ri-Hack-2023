@@ -42,10 +42,16 @@ export const signUp = catchAsync(async (req, res, next) => {
     return next(new AppError('Passwords not matching.', 404))
   }
 
+  const usersWithExistingEmail = await exec('SELECT * FROM user WHERE email = ?', [email])
+  if (usersWithExistingEmail.length === 1) {
+    return next(new AppError('User with the same email already exists.', 404))
+  }
+
   const hashedPassword = await encrypt(password)
-  const user = await exec('INSERT INTO user (first_name, last_name, email, password) VALUES (?, ?, ?, ?);', [firstName, lastName, email, hashedPassword])
-  const users = await exec('SELECT * FROM user')
-  console.info({ users })
+
+  const { lastID } = await exec('INSERT INTO user (first_name, last_name, email, password) VALUES (?, ?, ?, ?);', [firstName, lastName, email, hashedPassword])
+  const users = await exec('SELECT * FROM user WHERE id = ?', [lastID])
+  const user = users[0]
 
   // TODO: implement Email
   // await new Email(user, `${req.protocol}://${req.get('host')}/me`).sendWelcome()

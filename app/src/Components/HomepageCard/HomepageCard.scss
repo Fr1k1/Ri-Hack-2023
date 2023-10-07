@@ -1,0 +1,16 @@
+.homepage-card-wrapper {
+  background-color: #f4f4fd;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 8px;
+  padding: 8px;
+  gap: 8px;
+
+  img {
+    height: 150px;
+  }
+}

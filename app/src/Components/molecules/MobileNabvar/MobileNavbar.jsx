@@ -21,6 +21,9 @@ const NavbarMobile = () => {
 
   const isAddJobPage = location.pathname === "/add-job";
 
+  const isHomepage =
+    location.pathname === "/homepage" || location.pathname === "/";
+
   return (
     <div>
       <div className="icons">
@@ -38,7 +41,13 @@ const NavbarMobile = () => {
         ></X>
 
         <div className="dynamic-header-text-wrapper">
-          <h2>{isAddJobPage ? "Dodaj posao" : "Nest drugo"}</h2>
+          <h2>
+            {isAddJobPage
+              ? "Dodaj posao"
+              : isHomepage
+              ? "Homepage"
+              : "Nest drugo"}
+          </h2>
         </div>
       </div>
 

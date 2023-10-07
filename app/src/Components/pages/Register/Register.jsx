@@ -3,6 +3,7 @@ import "./Register.scss";
 import Input from "../../atoms/Input";
 import Button from "../../atoms/Button";
 import { addNewUser } from "../../../api/api";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [newUser, setNewUserData] = useState({
@@ -12,6 +13,8 @@ const Register = () => {
     password: "",
     passwordConfirm: "",
   });
+
+  const navigate = useNavigate();
 
   const handleInputChange = (name, value) => {
     setNewUserData((prevData) => ({
@@ -34,6 +37,7 @@ const Register = () => {
       console.log("Novi user je", newUser);
       await addNewUser(newUser);
       console.log("Uspjesno dodan novi user");
+      navigate("/login");
       //notifySuccess("Uspješno dodano osoblje");
       //console.log("Tenant submitted successfully");
     } catch (error) {

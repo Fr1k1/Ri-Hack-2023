@@ -15,13 +15,13 @@ router.route('/')
 
 router.route('/:id')
   .get(tasksController.getTask)
-  .patch(
-    authController.authenticate,
-    tasksController.updateTask
-  )
-  .delete(
-    authController.authenticate,
-    tasksController.deleteTask
-  )
+  // .patch(
+  //   authController.authenticate,
+  //   tasksController.updateTask
+  // )
+  // .delete(
+  //   authController.authenticate,
+  //   tasksController.deleteTask
+  // )
 
 export default router

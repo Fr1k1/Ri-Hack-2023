@@ -12,12 +12,11 @@ router.get('/logout', authController.logout)
 router.use(authController.authenticate)
 
 router.route('/current')
-  .get(userController.getCurrentUser, userController.getUser)
-/*  .patch(
-    userController.uploadUserPhoto,
-    userController.resizeUserPhoto,
-    userController.updateCurrentUser
-  )*/
-  .delete(userController.deleteCurrentUser)
+  .get(userController.getCurrentUser)
+  /*  .patch(
+      userController.uploadUserPhoto,
+      userController.resizeUserPhoto,
+      userController.updateCurrentUser
+    )*/
 
 export default router

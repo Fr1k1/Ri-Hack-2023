@@ -4,6 +4,7 @@ import morgan from 'morgan'
 import ms from 'ms'
 import cookieParser from 'cookie-parser'
 import compression from 'compression'
+import cors from 'cors'
 
 import tasksRouter from './routes/tasksRouters.js'
 import userRouter from './routes/userRoutes.js'
@@ -23,6 +24,14 @@ const app = express()
     }
   }
 }))*/
+
+// allow requests from localhost:5173
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 // sets API request limit
 app.use('/api', rateLimit({

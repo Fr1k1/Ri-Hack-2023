@@ -5,12 +5,15 @@ import Input from "../../atoms/Input";
 import Button from "../../atoms/Button";
 import { Link } from "react-router-dom";
 import { loginUser } from "../../../api/api";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [user, setUserData] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleInputChange = (name, value) => {
     setUserData((prevData) => ({
@@ -32,6 +35,7 @@ const Login = () => {
       const response = await loginUser(user);
       localStorage.setItem("token", response.token);
       console.log("Uspjesno prijavljen");
+      navigate("/homepage");
       //notifySuccess("Uspješno dodano osoblje");
       //console.log("Tenant submitted successfully");
     } catch (error) {

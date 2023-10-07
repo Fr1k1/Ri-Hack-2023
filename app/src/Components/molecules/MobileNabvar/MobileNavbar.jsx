@@ -19,12 +19,16 @@ const NavbarMobile = () => {
 
   const location = useLocation();
 
-  const isAddJobPage = location.pathname === "/add-job";
+  const isAddJobPage = location.pathname === "/add-task";
 
   const isHomepage =
     location.pathname === "/homepage" || location.pathname === "/";
 
   const isProfilePage = location.pathname === "/my-profile";
+
+  const isChoresPage = location.pathname === "/chores";
+
+  const isActivitiesPage = location.pathname === "/activities";
 
   return (
     <div>
@@ -45,11 +49,15 @@ const NavbarMobile = () => {
         <div className="dynamic-header-text-wrapper">
           <h2>
             {isAddJobPage
-              ? "Dodaj posao"
+              ? "Add new task"
               : isHomepage
               ? "Homepage"
               : isProfilePage
               ? "About me"
+              : isChoresPage
+              ? "Chores"
+              : isActivitiesPage
+              ? "Activities"
               : "Nest drugo"}
           </h2>
         </div>
@@ -58,7 +66,7 @@ const NavbarMobile = () => {
       <nav className={openNav ? "nav-bar" : "hidden"} onClick={closeNav}>
         <ul>
           <li>
-            <Link to="/">Homepage</Link>
+            <Link to="/homepage">Homepage</Link>
           </li>
 
           <li>

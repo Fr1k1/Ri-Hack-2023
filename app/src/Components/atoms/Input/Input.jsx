@@ -17,14 +17,29 @@ const Input = ({
   return (
     <div className="input-wrapper">
       {label && <label className="label-main">{label}</label>}
-      <input
-        type={type}
-        placeholder={placeholder}
-        className={`input-main ${isDisabled ? "disabled" : ""}`}
-        onChange={onChange}
-        disabled={isDisabled}
-        value={defaultValue}
+      {(type == "text" ||
+        type == "date" ||
+        type == "email" ||
+        type == "password") && (
+        <input
+          type={type}
+          placeholder={placeholder}
+          className={`input-main ${isDisabled ? "disabled" : ""}`}
+          onChange={onChange}
+          disabled={isDisabled}
+          value={defaultValue}
       />
+      )}
+      {type == "textarea" && (
+        <textarea
+          type={type}
+          placeholder={placeholder}
+          className={`input-main ${isDisabled ? "disabled" : ""}`}
+          onChange={onChange}
+          disabled={isDisabled}
+          rows={8}
+        />
+      )}
     </div>
   );
 };

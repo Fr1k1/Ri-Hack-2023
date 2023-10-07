@@ -7,21 +7,23 @@ import TaskDetails from "./Components/pages/TaskDetails/TaskDetails";
 import Tasks from "./Components/pages/Tasks/Tasks";
 import Profile from "./Components/pages/Profile/Profile";
 import Homepage from "./Components/pages/Homepage/Homepage";
+import ViewActivities from "./Components/pages/ViewActivities/ViewActivities";
+import ViewChores from "./Components/pages/ViewChores/ViewChores";
+import AddNewTask from "./Components/pages/AddNewTask/AddNewTask";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route path="/homepage" element={<Homepage />} />
+          <Route path="/" element={<Homepage />} />
           <Route path="/tasks/:id" element={<TaskDetails />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/my-profile" element={<Profile />} />
-          <Route path="/add-job" element={<h1>Add job</h1>} />
-          <Route path="/chores" element={<h1>Chores</h1>} />
-          <Route path="/activities" element={<h1>Activities</h1>} />
+          <Route path="/chores" element={<ViewChores />} />
+          <Route path="/activities" element={<ViewActivities />} />
+          <Route path="/add-task" element={<AddNewTask />} />
         </Route>
-
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

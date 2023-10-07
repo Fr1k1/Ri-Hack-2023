@@ -1,6 +1,7 @@
+import React from "react";
 import "./TaskCard.scss";
-import money from "../../assets/money.png";
-import noImage from "../../assets/user.png";
+import money from "../../../assets/money.png";
+import noImage from "../../../assets/user.png";
 import { Steps } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 

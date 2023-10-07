@@ -1,4 +1,5 @@
 import app from './src/app.js'
+import { testConnection } from './src/db.js'
 import { EOL } from 'os'
 
 let server
@@ -6,6 +7,7 @@ let server
 (async function startServer() {
   handleInterrupt()
   handleGlobalErrors()
+  await connectDb()
   server = createServer(process.env.PORT || 3000)
 })()
 
@@ -42,6 +44,15 @@ function handleUncaughtExceptions() {
       process.exit(1)
     })
   })
+}
+
+async function connectDb() {
+  try {
+    await testConnection()
+    console.info('SQLite state:\tconnected!')
+  } catch (e) {
+    process.exit(1)
+  }
 }
 
 function createServer(port) {

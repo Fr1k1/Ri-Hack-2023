@@ -44,3 +44,13 @@ CREATE TABLE IF NOT EXISTS task_user(
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (task_id) REFERENCES task(id)
 );
+
+INSERT OR IGNORE INTO task_status (name) VALUES
+    ('pending'),
+    ('full'),
+    ('missed'),
+    ('completed');
+INSERT OR IGNORE INTO task_difficulty (name) VALUES
+    ('easy'),
+    ('medium'),
+    ('hard');

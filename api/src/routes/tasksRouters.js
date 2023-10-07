@@ -15,13 +15,16 @@ router.route('/')
 
 router.route('/:id')
   .get(tasksController.getTask)
-  // .patch(
-  //   authController.authenticate,
-  //   tasksController.updateTask
-  // )
-  // .delete(
-  //   authController.authenticate,
-  //   tasksController.deleteTask
-  // )
+  .patch(
+    authController.authenticate,
+    tasksController.updateTask
+  )
+  .delete(
+    authController.authenticate,
+    tasksController.deleteTask
+  )
+
+//router.route('/:idTask/users/:idUser')
+//.post(tasksController.addUserToTask)
 
 export default router

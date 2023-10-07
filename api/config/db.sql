@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS task(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     status_id INTEGER NOT NULL,
     difficulty_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
     name VARCHAR(128) NOT NULL,
     reward VARCHAR(128) NOT NULL,
     description TEXT NOT NULL,
@@ -34,7 +35,8 @@ CREATE TABLE IF NOT EXISTS task(
     start_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,
     FOREIGN KEY(status_id) REFERENCES task_status(id),
-    FOREIGN KEY (difficulty_id) REFERENCES task_difficulty(id)
+    FOREIGN KEY (difficulty_id) REFERENCES task_difficulty(id),
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 CREATE TABLE IF NOT EXISTS task_user(

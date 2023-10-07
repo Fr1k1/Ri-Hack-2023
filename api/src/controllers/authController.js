@@ -67,6 +67,10 @@ export const login = catchAsync(async (req, res, next) => {
 
   const user = (await exec('SELECT * FROM user WHERE email = ?', [email]))[0]
 
+  if (user.is_active == 0) {
+    return next(new AppError('Account deactivated.'))
+  }
+
   if (!user || !(await compare(password, user.password))) {
     return next(new AppError(`Incorrect email or password.`, 401))
   }

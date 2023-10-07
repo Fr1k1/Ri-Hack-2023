@@ -11,7 +11,7 @@ import user from "../../../assets/user.png";
 import Input from "../../atoms/Input";
 import "./Profile.scss";
 import Button from "../../atoms/Button";
-import { getLoggedUser } from "../../../api/api";
+import { editLoggedUser, getLoggedUser } from "../../../api/api";
 
 const Profile = () => {
   const [loggedUser, setLoggedUser] = useState(null);
@@ -24,10 +24,23 @@ const Profile = () => {
   const handleDelete = () => {
     console.log("delete");
   };
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     setIsEdit(false);
-    console.log("save");
+
+    try {
+      // Assuming you have an update function in your API file
+      await editLoggedUser({
+        id: loggedUser.id, // Assuming your logged user object has an ID property
+        firstName: loggedUser.first_name, // Assuming the correct property names
+        lastName: loggedUser.last_name, // Assuming the correct property names
+        email: loggedUser.email, // Assuming the correct property names
+        // Add other properties you want to update
+      });
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
   };
+
   const cancelChanges = () => {
     setLoggedUser({
       firstName: loggedUser.first_name,
@@ -56,27 +69,24 @@ const Profile = () => {
     <div className="profile-wrapper">
       {loggedUser ? (
         <div className="profile-container">
-          <div className="edit-container" onClick={handleEdit}>
-            {isEdit ? (
-              <X size={48} onClick={cancelChanges} />
-            ) : (
-              <PencilSimple size={48} />
-            )}
-          </div>
           <div className="edit-image-container">
             <img src={user} alt="user-image" />{" "}
-            {isEdit && <PencilSimple size={32} />}
           </div>
           <div className="profile-user-data">
             <div className="profile-user-data-row">
               <User size={32} weight="bold" />
               <Input
                 defaultValue={loggedUser?.first_name}
-                isDisabledDefault={!isEdit}
+                onChange={(e) =>
+                  setLoggedUser({ ...loggedUser, first_name: e.target.value })
+                }
               />
+
               <Input
                 defaultValue={loggedUser?.last_name}
-                isDisabledDefault={!isEdit}
+                onChange={(e) =>
+                  setLoggedUser({ ...loggedUser, last_name: e.target.value })
+                }
                 setIsEdit={setIsEdit}
               />
             </div>
@@ -97,7 +107,7 @@ const Profile = () => {
       ) : (
         <p>Loading user data...</p>
       )}
-      {isEdit && <Button onClick={handleSaveChanges}>Save changes</Button>}
+      <Button onClick={handleSaveChanges}>Save changes</Button>
       <Button isRed={true} onClick={handleDelete}>
         Delete my account
       </Button>

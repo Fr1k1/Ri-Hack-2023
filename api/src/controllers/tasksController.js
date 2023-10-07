@@ -15,7 +15,7 @@ export const createTask = catchAsync(async (req, res, next) => {
     return next(new AppError('Missing task info.', 422))
   }
 
-  const { lastID } = await exec('INSERT INTO task(name, reward, description, group_size, lat, lng, start_date, end_date, status_id, difficulty_id ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', [task.name, task.reward, task.description, task.groupSize, task.lat, task.lng, task.startDate, task.endDate, task.statusId, task.difficultyId])
+  const { lastID } = await exec('INSERT INTO task(name, reward, description, group_size, lat, lng, start_date, end_date, status_id, difficulty_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', [task.name, task.reward, task.description, task.groupSize, task.lat, task.lng, task.startDate, task.endDate, task.statusId, task.difficultyId, req.user.id])
   const newTask = (await exec('SELECT * FROM task WHERE id = ?;', [lastID]))[0]
 
   res.status(201).json({
@@ -24,13 +24,30 @@ export const createTask = catchAsync(async (req, res, next) => {
   })
 })
 
-// export const addUserToTask = (req, res, next) => {
-//     const { taskId, userId } = req.params
+/*export const addUserToTask = catchAsync(async (req, res, next) => {
+  const { taskId, userId } = req.params
 
-//     const tasks = await exec("SELECT * FROM ")
+  const fetchedTask = await exec("SELECT * FROM task WHERE id = ?;", [taskId])
 
+  const userTasks = await exec("SELECT * FROM task_user WHERE task_id = ? AND user_id = ?;", [taskId, userId])
 
-// }
+  if (!taskId || !userId) {
+    return next(new AppError('Insufficient parameters.', 422))
+  }
+
+  if (userTasks.length < fetchedTask.group_size) {
+    await exec('INSERT INTO task_user(user_id, task_id) VALUES (?, ?);', [userId, taskId])
+    userTasks.group_size++
+
+    if (userTasks.length == fetchedTask.group_size)
+      await exec('UPDATE task SET status = ? WHERE task_id = ?;', [2, taskId])
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { groupSize: fetchedTask.group_size, remainingSlots: fetchedTask.group_size - userTasks.length }
+  })
+})*/
 
 export const updateTask = catchAsync(async (req, res) => {
   const task = extractTaskFromReq(req)

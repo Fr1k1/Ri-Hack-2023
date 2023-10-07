@@ -4,30 +4,27 @@ import * as factory from './handlerFactory.js'
 import { catchAsync } from '../utils/catchAsync.js'
 
 export const getAllTasks = catchAsync(async (resource) =>
-    catchAsync(async (req, res) => {
-        let documents
+  catchAsync(async (req, res) => {
+    let documents
 
-        if (req.query.hasOwnProperty("dateFrom") && !req.query.hasOwnProperty("dateTo")) {
-            documents = await exec(`SELECT * FROM ${resource} WHERE dateFrom >= ${req.query.dateFrom};`)
-        }
-        else if (!req.query.hasOwnProperty("dateFrom") && req.query.hasOwnProperty("dateTo")) {
-            documents = await exec(`SELECT * FROM ${resource} WHERE dateTo <= ${req.query.dateTo};`)
-        }
-        else if (req.query.hasOwnProperty("dateFrom") && req.query.hasOwnProperty("dateTo")) {
-            if (req.query.dateFrom > req.query.dateTo)
-                return next(new AppError("'Date from' can't be bigger than 'date to'", 422))
-            documents = await exec(`SELECT * FROM ${resource} WHERE dateFrom >= ${req.query.dateFrom} AND dateTo <= ${req.query.dateTo};`)
-        }
-        else {
-            documents = await exec(`SELECT * FROM ${resource};`)
-        }
-        
-        res.status(200).json({
-            status: 'success',
-            results: documents.length,
-            data: { [`${resource + "s"}`]: documents }
-        })
-    }))
+    if (req.query.hasOwnProperty('dateFrom') && !req.query.hasOwnProperty('dateTo')) {
+      documents = await exec(`SELECT * FROM ${resource} WHERE dateFrom >= ${req.query.dateFrom};`)
+    } else if (!req.query.hasOwnProperty('dateFrom') && req.query.hasOwnProperty('dateTo')) {
+      documents = await exec(`SELECT * FROM ${resource} WHERE dateTo <= ${req.query.dateTo};`)
+    } else if (req.query.hasOwnProperty('dateFrom') && req.query.hasOwnProperty('dateTo')) {
+      if (req.query.dateFrom > req.query.dateTo)
+        return next(new AppError('\'Date from\' can\'t be bigger than \'date to\'', 422))
+      documents = await exec(`SELECT * FROM ${resource} WHERE dateFrom >= ${req.query.dateFrom} AND dateTo <= ${req.query.dateTo};`)
+    } else {
+      documents = await exec(`SELECT * FROM ${resource};`)
+    }
+
+    res.status(200).json({
+      status: 'success',
+      results: documents.length,
+      data: { [`${resource + 's'}`]: documents }
+    })
+  }))
 
 export const getTask = factory.getOne('task')
 
@@ -40,7 +37,7 @@ export const createTask = catchAsync(async (req, res, next) => {
     return next(new AppError('Missing task info.', 422))
   }
 
-  const { lastID } = await exec('INSERT INTO task(name, reward, description, group_size, lat, lng, start_date, end_date, status_id, difficulty_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', [task.name, task.reward, task.description, task.groupSize, task.lat, task.lng, task.startDate, task.endDate, task.statusId, task.difficultyId, req.user.id])
+  const { lastID } = await exec('INSERT INTO task(name, reward, description, group_size, lat, lng, start_date, end_date, is_activity, status_id, difficulty_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', [task.name, task.reward, task.description, task.groupSize, task.lat, task.lng, task.startDate, task.endDate, task.isActivity, task.statusId, task.difficultyId, req.user.id])
   const newTask = (await exec('SELECT * FROM task WHERE id = ?;', [lastID]))[0]
 
   res.status(201).json({
@@ -170,7 +167,22 @@ export const getTasksWithin = catchAsync(async (req, res, next) => {
 
 const extractTaskFromReq = (req) => {
   const { id } = req.params
-  const { statusId, difficultyId, name, reward, description, groupSize, lat, lng, startDate, endDate } = req.body
+  const {
+    statusId,
+    difficultyId,
+    name,
+    reward,
+    description,
+    groupSize,
+    lat,
+    lng,
+    startDate,
+    endDate,
+    isActivity
+  } = req.body
 
-  return { id, statusId, difficultyId, name, reward, description, groupSize, lat, lng, startDate, endDate }
+  const task = { id, statusId, difficultyId, name, reward, description, groupSize, lat, lng, startDate, endDate, isActivity }
+  task.isActivity = isActivity == null ? 1 : isActivity
+
+  return task
 }

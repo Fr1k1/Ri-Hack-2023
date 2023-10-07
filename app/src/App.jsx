@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import MainLayout from "./Components/MainLayout/MainLayout";
-import Input from "./Components/Input/Input";
+import MainLayout from "./Components/templ/MainLayout";
+import Input from "./Components/atoms/Input";
 
 function App() {
   return (

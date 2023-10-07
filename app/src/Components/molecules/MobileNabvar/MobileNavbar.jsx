@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { List } from "@phosphor-icons/react";
 import { X } from "@phosphor-icons/react/dist/ssr";
 import "./MobileNavbar.scss";
-import Button from "../Button/Button";
+import Button from "../../atoms/Button/Button";
 
 const NavbarMobile = () => {
   const [openNav, setOpenNav] = useState(false);

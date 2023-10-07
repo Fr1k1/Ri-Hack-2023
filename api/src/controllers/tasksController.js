@@ -1,6 +1,5 @@
 import { exec } from '../db.js'
 import { AppError } from '../errors/appError.js'
-import * as factory from './handlerFactory.js'
 import { catchAsync } from '../utils/catchAsync.js'
 
 export const getAllTasks = catchAsync(async (req, res, next) => {
@@ -32,12 +31,19 @@ export const getAllTasks = catchAsync(async (req, res, next) => {
     documents = await exec(`SELECT * FROM task`)
   }
 
+  for (let i = 0; i < documents.length; i++) {
+    documents[i].user = (await exec('SELECT * FROM user WHERE id = ?', [documents[i].user_id]))[0]
+  }
+
   res.status(200).json({
     status: 'success',
     results: documents.length,
-    data: { tasks: documents }
+    data: {
+      tasks: documents
+    }
   })
 })
+
 
 function isValidDate(date) {
   return Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date)
@@ -55,7 +61,23 @@ function getYearDateEntry(date) {
   return `${year}-${month}-${day}`
 }
 
-export const getTask = factory.getOne('task')
+export const getTask = catchAsync(async (req, res, next) => {
+  const { id } = req.params
+
+  const document = (await exec(`SELECT * FROM task WHERE id = ?`, [id]))[0]
+
+  if (!document) {
+    return next(new AppError(`No task found with id '${id}'.`, 404))
+  }
+
+  document.user = (await exec('SELECT * FROM user WHERE id = ?', [document.user_id]))[0]
+
+  res.status(200).json({
+    status: 'success',
+    data: { task: document }
+  })
+})
+
 
 export const createTask = catchAsync(async (req, res, next) => {
   const task = extractTaskFromReq(req)

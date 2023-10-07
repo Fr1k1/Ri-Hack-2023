@@ -70,3 +70,13 @@ export const deleteCurrentUser = catchAsync(async (req, res, next) => {
     next(new AppError('Unable to log out. Please try again later.', 500))
   }
 })
+
+export const getCurrentTaskHistory = catchAsync(async (req, res) => {
+  const tasks = await exec('SELECT * FROM task WHERE id IN (SELECT task_id FROM task_user WHERE user_id = ?)', [req.user.id])
+
+  res.status(200).json({
+    status: 'success',
+    results: tasks.length,
+    data: { tasks }
+  })
+})

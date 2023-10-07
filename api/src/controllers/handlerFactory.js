@@ -1,12 +1,13 @@
 import { catchAsync } from '../utils/catchAsync.js'
 import { AppError } from '../errors/appError.js'
+import { exec } from '../db.js'
 
 export const getOne = (resource) =>
   catchAsync(async (req, res, next) => {
     const { id } = req.params
 
-    const document = { name: 'Hello world' }
-
+    const document = await exec(`SELECT * FROM ${resource} WHERE id = ?`, [id])
+    console.log("daniel", document)
     if (!document) {
       return next(new AppError(`No ${resource} found with id '${id}'.`, 404))
     }

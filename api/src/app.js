@@ -47,7 +47,7 @@ app.use(compression())
 
 // adds resource routers
 app.use('/api/v1/tasks', tasksRouter)
-app.use('/api/v1/', userRouter)
+app.use('/api/v1/users', userRouter)
 
 // matches unknown paths
 app.all('*', (req, res, next) => {

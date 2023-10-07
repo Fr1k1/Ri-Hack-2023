@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS user(
     photo VARCHAR(64),
     is_active INTEGER DEFAULT 1,
     blocked_until DATETIME,
-    ratings_average REAL NOT NULL,
-    ratings_quantity INTEGER NOT NULL,
+    ratings_average REAL DEFAULT 0,
+    ratings_quantity INTEGER DEFAULT 0,
     email VARCHAR(64) UNIQUE NOT NULL
 );
 

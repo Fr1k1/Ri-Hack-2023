@@ -17,17 +17,13 @@
     "walk",
     "activity"
   ],
-  "engines": {
-    "node": "18.18.0",
-    "npm": "10.2.0"
-  },
-  "engineStrict": true,
   "author": "Tin Tomašić, Daniel Škrlac, Ana Škarica, Martin Friščić",
   "license": "GPL-2.0",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "env-cmd": "^10.1.0",
     "express": "^4.18.2",
     "express-rate-limit": "^7.1.0",

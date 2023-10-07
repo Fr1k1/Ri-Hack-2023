@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./Components/templ/MainLayout";
 import Input from "./Components/atoms/Input";
+import TaskCard from "./Components/TaskCard/TaskCard";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import * as factory from './handlerFactory.js'
 
-export const getAllTasks = factory.getAll('tasks')
+export const getAllTasks = factory.getAll('task')
 export const getTask = factory.getOne('task')
 
 export const createTask = (req, res) => 1

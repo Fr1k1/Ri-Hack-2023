@@ -6,6 +6,12 @@ const router = express.Router()
 
 router.get('/within/:distance/center/:latlng/unit/:unit', tasksController.getTasksWithin)
 
+router.route('/')
+  .get(tasksController.getAllTasks)
+  .post(
+    authController.authenticate,
+    tasksController.createTask
+  )
 
 router.route('/:id')
   .get(tasksController.getTask)
@@ -17,14 +23,5 @@ router.route('/:id')
   //   authController.authenticate,
   //   tasksController.deleteTask
   // )
-  
-router.route('/')
-  .get(tasksController.getAllTasks)
-  .post(
-    authController.authenticate,
-    tasksController.createTask
-  )
-
-
 
 export default router

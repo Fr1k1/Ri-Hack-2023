@@ -7,7 +7,7 @@ export const getOne = (resource) =>
     const { id } = req.params
 
     const document = await exec(`SELECT * FROM ${resource} WHERE id = ?`, [id])
-    console.log("daniel", document)
+
     if (!document) {
       return next(new AppError(`No ${resource} found with id '${id}'.`, 404))
     }
@@ -21,11 +21,11 @@ export const getOne = (resource) =>
 export const getAll = (resource) =>
   catchAsync(async (req, res) => {
 
-    const documents = ['Task1']
+    const documents = await exec(`SELECT * FROM ${resource}`)
 
     res.status(200).json({
       status: 'success',
       results: documents.length,
-      data: { [`${resource}`]: documents }
+      data: { [`${resource + "s"}`]: documents }
     })
   })

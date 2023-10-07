@@ -1,15 +1,16 @@
+import React from "react";
 import "./TaskCard.scss";
-import money from "../../assets/money.png";
-import noImage from "../../assets/user.png";
+import money from "../../../assets/money.png";
+import noImage from "../../../assets/user.png";
 import { Steps } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 
-const TaskCard = () => {
+const TaskCard = ({ task }) => {
   return (
-    <Link to="/tasks/1">
+    <Link to={`/tasks/${task.id}`}>
       <div className="task-card-wrapper">
         <div className="task-card-header">
-          <h4>WOOD CHOPPING</h4>
+          <h4>{task.name}</h4>
           <div className="task-card-header-reward">
             <img src={money} alt="money-icon" />
             <p>50 €</p>

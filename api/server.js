@@ -2,9 +2,11 @@ import app from './src/app.js'
 import { testConnection } from './src/db.js'
 import { EOL } from 'os'
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
 let server
 
-(async function startServer() {
+;(async function startServer() {
   handleInterrupt()
   handleGlobalErrors()
   await connectDb()
@@ -57,10 +59,6 @@ async function connectDb() {
 
 function createServer(port) {
   return app.listen(port, () => {
-    console.info([
-      `App mode:\t${process.env.NODE_ENV}`,
-      `App port:\t${port}`,
-      `App start:\t${new Date()}`
-    ].join(EOL))
+    console.info([`App mode:\t${process.env.NODE_ENV}`, `App port:\t${port}`, `App start:\t${new Date()}`].join(EOL))
   })
 }

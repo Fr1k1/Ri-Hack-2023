@@ -57,3 +57,21 @@ export const getAllTasks = () => {
       return [];
     });
 };
+
+export const getTaskById = (taskId) => {
+  return fetch(`${api}/v1/tasks/${taskId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    })
+    .catch((error) => {
+      console.error(`Error fetching task ${taskId}:`, error);
+      return [];
+    });
+};

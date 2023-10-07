@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAllTasks } from "../../../api/api";
 import TaskCard from "../../atoms/TaskCard";
 import "./Tasks.scss";
+import { Link } from "react-router-dom";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -18,7 +19,7 @@ const Tasks = () => {
   return (
     <div className="all-tasks-wrapper">
       {tasks.map((task) => (
-        <TaskCard key={task.id} />
+        <TaskCard key={task.id} task={task} />
       ))}
     </div>
   );

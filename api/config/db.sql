@@ -66,3 +66,6 @@ SELECT * FROM task_user;
 
 DELETE FROM task_user WHERE user_id = 2;
 DELETE FROM task_user WHERE user_id = 3;
+
+SELECT * FROM task WHERE DATE(start_date) > DATE('2023-09-17') OR DATE(start_date) = DATE('2023-09-15')
+

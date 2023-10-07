@@ -10,6 +10,7 @@ import Homepage from "./Components/pages/Homepage/Homepage";
 import ViewActivities from "./Components/pages/ViewActivities/ViewActivities";
 import ViewChores from "./Components/pages/ViewChores/ViewChores";
 import AddNewTask from "./Components/pages/AddNewTask/AddNewTask";
+import History from "./Components/pages/History/History";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/chores" element={<ViewChores />} />
           <Route path="/activities" element={<ViewActivities />} />
           <Route path="/add-task" element={<AddNewTask />} />
+          <Route path="/history" element={<History />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

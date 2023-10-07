@@ -166,3 +166,22 @@ export async function deleteLoggedUser() {
 
   return responseData;
 }
+
+export const getHistoryTasks = () => {
+  return fetch(`${api}/v1/users/current/task-history`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    })
+    .catch((error) => {
+      console.error("Error fetching tasks:", error);
+      return [];
+    });
+};

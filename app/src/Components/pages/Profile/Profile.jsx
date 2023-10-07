@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  User,
-  Envelope,
-  Star,
-  Check,
-  PencilSimple,
-  X,
-} from "@phosphor-icons/react";
+import { User, Envelope, Star, Check } from "@phosphor-icons/react";
 import user from "../../../assets/user.png";
 import Input from "../../atoms/Input";
 import "./Profile.scss";
@@ -16,15 +9,12 @@ import {
   editLoggedUser,
   getLoggedUser,
 } from "../../../api/api";
+import FileInput from "../../FileInput/FileInput";
 
 const Profile = () => {
   const [loggedUser, setLoggedUser] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
 
-  const handleEdit = () => {
-    console.log("edit");
-    setIsEdit(!isEdit);
-  };
   const handleDelete = async () => {
     await deleteLoggedUser();
     console.log("delete");
@@ -46,17 +36,6 @@ const Profile = () => {
     }
   };
 
-  const cancelChanges = () => {
-    setLoggedUser({
-      firstName: loggedUser.first_name,
-      lastName: loggedUser.last_name,
-      email: loggedUser.email,
-      ratingsAverage: loggedUser.ratings_average,
-      ratingsQuantity: loggedUser.ratings_quantity,
-      //image: defaultUserData.image,
-    });
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -75,9 +54,12 @@ const Profile = () => {
       {loggedUser ? (
         <div className="profile-container">
           <div className="edit-image-container">
-            <img src={user} alt="user-image" />{" "}
+            <label htmlFor="file-upload">
+              <img src={user} alt="user-image" />
+            </label>
           </div>
           <div className="profile-user-data">
+            <FileInput onFileChange={handleFileChange} />
             <div className="profile-user-data-row">
               <User size={32} weight="bold" />
               <Input

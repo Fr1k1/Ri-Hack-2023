@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import MainLayout from "./Components/templ/MainLayout";
 import Login from "./Components/pages/Login/Login";
 import Register from "./Components/pages/Register/Register";
+import TaskDetails from "./Components/pages/TaskDetails/TaskDetails";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="/krec" element={<h1>something</h1>} />
+          <Route path="/tasks/:id" element={<TaskDetails/>} />
         </Route>
 
         <Route path="/login" element={<Login />} />

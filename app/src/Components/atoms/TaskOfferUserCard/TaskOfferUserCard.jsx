@@ -1,5 +1,5 @@
 import "./TaskOfferUserCard.scss";
-import noImage from "../../assets/user.png";
+import noImage from "../../../assets/user.png";
 
 const TaskOfferUserCard = ({ user }) => {
   return (

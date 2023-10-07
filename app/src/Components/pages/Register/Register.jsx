@@ -18,6 +18,8 @@ const Register = () => {
       ...prevData,
       [name]: value,
     }));
+
+    console.log(value);
   };
 
   const handleSubmit = async (e) => {
@@ -29,6 +31,7 @@ const Register = () => {
 
     // if (isValid) {
     try {
+      console.log("Novi user je", newUser);
       await addNewUser(newUser);
       console.log("Uspjesno dodan novi user");
       //notifySuccess("Uspješno dodano osoblje");
@@ -46,6 +49,7 @@ const Register = () => {
 
   const handleUserFirstnameChange = (e) => {
     handleInputChange("firstName", e.target.value);
+    console.log(e.target.value);
   };
 
   const handleUserLastnameChange = (e) => {

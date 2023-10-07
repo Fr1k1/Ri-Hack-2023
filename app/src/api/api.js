@@ -1,10 +1,17 @@
 let api = "http://localhost:3000/api";
 
+let token = localStorage.getItem("token");
+
+const headers = new Headers();
+headers.set("Authorization", token);
+headers.set("Content-Type", "application/json");
+
 export async function addNewUser(userData) {
   const response = await fetch(`${api}/v1/users/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(userData),
   });
@@ -23,9 +30,7 @@ export async function addNewUser(userData) {
 export async function loginUser(userData) {
   const response = await fetch(`${api}/v1/users/login`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headers,
     body: JSON.stringify(userData),
   });
 
@@ -44,6 +49,7 @@ export const getAllTasks = () => {
   return fetch(`${api}/v1/tasks`, {
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((res) => {
@@ -62,6 +68,7 @@ export const getTaskById = (taskId) => {
   return fetch(`${api}/v1/tasks/${taskId}`, {
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((res) => {
@@ -76,13 +83,11 @@ export const getTaskById = (taskId) => {
     });
 };
 
-let otherParam = { credentials: "include" };
-
 export async function getLoggedUser() {
-  const response = await fetch(`${api}/v1/users/current`, otherParam, {
+  const response = await fetch(`${api}/v1/users/current`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
     },
   });
 

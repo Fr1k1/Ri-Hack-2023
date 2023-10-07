@@ -29,7 +29,8 @@ const Login = () => {
 
     // if (isValid) {
     try {
-      await loginUser(user);
+      const response = await loginUser(user);
+      localStorage.setItem("token", response.token);
       console.log("Uspjesno prijavljen");
       //notifySuccess("Uspješno dodano osoblje");
       //console.log("Tenant submitted successfully");

@@ -56,3 +56,13 @@ INSERT OR IGNORE INTO task_difficulty (name) VALUES
     ('easy'),
     ('medium'),
     ('hard');
+
+
+SELECT * FROM user;
+
+SELECT * FROM task;
+
+SELECT * FROM task_user;
+
+DELETE FROM task_user WHERE user_id = 2;
+DELETE FROM task_user WHERE user_id = 3;

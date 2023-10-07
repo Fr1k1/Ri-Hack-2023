@@ -17,7 +17,6 @@ const TaskCard = ({ task }) => {
           </div>
         </div>
         <div className="task-card-content">
-          <p>Location: Mirka Marka St 50, Zagreb</p>
           <p>Start date: tuesday</p>
           <div className="task-card-content-footer">
             <div className="task-card-content-item">

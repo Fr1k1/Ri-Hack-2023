@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./AddNewTask.scss";
 import Input from "../../atoms/Input";
 import Button from "../../atoms/Button";
+import LocationFinderDummy from "../../atoms/LocationFinderDummy";
 import { addTask } from "../../../api/api";
+import Leaflet from "leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 const AddNewTask = () => {
+  const [latLng, setLatLng] = useState({});
+  const [marker, setMarker] = useState([45.40473607821249, 16.34990858459468]);
   const [task, setTaskData] = useState({
     name: "",
     reward: "",
@@ -15,11 +21,14 @@ const AddNewTask = () => {
     endDate: "",
     difficultyId: "",
     isActivity: 0,
-    lat: 20,
-    lng: 50,
+    lat: marker[0],
+    lng: marker[1],
   });
+
   const addNewTask = async () => {
     console.log(task);
+    console.log(task.lat + " " + task.lng);
+
     const res = await addTask(task);
     console.log(res);
   };
@@ -65,6 +74,17 @@ const AddNewTask = () => {
       handleInputChange("difficultyId", 3);
     }
   };
+  useEffect(() => {
+    console.log(latLng.lat + " " + latLng.lng);
+    if (latLng.lat != undefined && latLng.lng != undefined) {
+      console.log("change to" + latLng.lat + latLng.lng);
+      task.lat = latLng.lat;
+      task.lng = latLng.lng;
+      setMarker([latLng.lat, latLng.lng]);
+      console.log(marker);
+    }
+  }, [latLng]);
+
   return (
     <div className="add-task-wrapper">
       <Input
@@ -110,7 +130,22 @@ const AddNewTask = () => {
           onChange={handleRewardChange}
         />
       )}
-      <p>Mapa di izabereš točku</p>
+      <div style={{ height: "220px", margin: "24px 0" }}>
+        <MapContainer
+          center={marker}
+          zoom={7}
+          scrollWheelZoom={false}
+          id="map-container"
+          style={{ height: "100%", minHeight: "100%" }}
+        >
+          <LocationFinderDummy setLatLng={setLatLng} />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={marker}></Marker>
+        </MapContainer>
+      </div>{" "}
       <Input
         placeholder={"Describe your task"}
         label={"Description:"}

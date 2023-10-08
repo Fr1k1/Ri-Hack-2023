@@ -42,14 +42,22 @@ const startTaskCompletitionListener = async () => {
     }
 
     try {
-        const currentDate = getYearDateEntry(new Date())
+        const currentDate = new Date();
 
-        let completedTasks = await exec("SELECT * FROM task WHERE ? >= strftime('%Y-%m-%d', end_date) AND status_id < 4;", [currentDate]);
+        const sevenDaysLater = new Date(currentDate);
+        sevenDaysLater.setDate(currentDate.getDate() + 7);
+
+        sevenDaysLater.setDate(sevenDaysLater.getDate() - 1);
+        sevenDaysLater.setHours(23, 59, 0, 0);
+
+        const currentDateStr = getYearDateEntry(currentDate)
+
+        let completedTasks = await exec("SELECT * FROM task WHERE ? >= strftime('%Y-%m-%d', end_date) AND status_id < 4;", [currentDateStr]);
 
         console.log(completedTasks)
 
         completedTasks.forEach(async element => {
-            await exec("UPDATE task SET status_id= 4 WHERE id=?;", [element.id])
+            await exec("UPDATE task SET status_id= 4, valid_until = ? WHERE id=?", [sevenDaysLater, element.id])
         });
     } catch (error) {
         console.error("Error connecting to the database:", error)
@@ -58,7 +66,7 @@ const startTaskCompletitionListener = async () => {
 
 await connectToDb()
 
-cron.schedule('59 23 * * *', async () => {
+cron.schedule('* * * * *', async () => {
     console.log('Starting the task completion listener at 11:59 PM...')
     await startTaskCompletitionListener()
     console.log('Task completion listener completed.')

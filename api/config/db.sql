@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS task_user(
     user_id INTEGER NOT NULL,
     task_id INTEGER NOT NULL,
     rating INTEGER DEFAULT NULL,
+    valid_until DATETIME DEFAULT NULL,
     PRIMARY KEY (user_id, task_id),
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (task_id) REFERENCES task(id)

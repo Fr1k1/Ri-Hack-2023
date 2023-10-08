@@ -74,6 +74,10 @@ export const deleteCurrentUser = catchAsync(async (req, res, next) => {
 export const getCurrentTaskHistory = catchAsync(async (req, res) => {
   const tasks = await exec('SELECT * FROM task WHERE id IN (SELECT task_id FROM task_user WHERE user_id = ?)', [req.user.id])
 
+  for (let i = 0; i < tasks.length; i++) {
+    tasks[i].user = (await exec('SELECT * FROM user WHERE id = ?', [tasks[i].user_id]))[0]
+  }
+  
   res.status(200).json({
     status: 'success',
     results: tasks.length,

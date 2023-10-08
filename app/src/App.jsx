@@ -13,12 +13,20 @@ import AddNewTask from "./Components/pages/AddNewTask/AddNewTask";
 import History from "./Components/pages/History/History";
 import ReviewProfile from "./Components/pages/ReviewProfile/ReviewProfile";
 import Reviews from "./Components/pages/Reviews/Reviews";
+import ProtectedRoute from "./Components/atoms/ProtectedRoute/ProtectedRoute";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/" element={<Homepage />} />
           <Route path="/tasks/:id" element={<TaskDetails />} />
           <Route path="/tasks" element={<Tasks />} />

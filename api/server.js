@@ -1,3 +1,4 @@
+import { Worker } from 'worker_threads';
 import app from './src/app.js'
 import { testConnection } from './src/db.js'
 import { EOL } from 'os'
@@ -10,6 +11,7 @@ let server
   handleInterrupt()
   handleGlobalErrors()
   await connectDb()
+  new Worker("./taskCompletitionManager.js")
   server = createServer(process.env.PORT || 3000)
 })()
 

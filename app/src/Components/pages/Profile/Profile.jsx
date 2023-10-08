@@ -59,7 +59,7 @@ const Profile = () => {
             </label>
           </div>
           <div className="profile-user-data">
-            <FileInput onFileChange={handleFileChange} />
+            {/* <FileInput onFileChange={handleFileChange} /> */}
             <div className="profile-user-data-row">
               <User size={32} weight="bold" />
               <Input

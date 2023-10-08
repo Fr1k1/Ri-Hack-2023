@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS task(
 CREATE TABLE IF NOT EXISTS task_user(
     user_id INTEGER NOT NULL,
     task_id INTEGER NOT NULL,
+    rating INTEGER DEFAULT NULL,
     PRIMARY KEY (user_id, task_id),
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (task_id) REFERENCES task(id)
@@ -53,20 +54,8 @@ INSERT OR IGNORE INTO task_status (name) VALUES
     ('full'),
     ('missed'),
     ('completed');
+
 INSERT OR IGNORE INTO task_difficulty (name) VALUES
     ('easy'),
     ('medium'),
     ('hard');
-
-
-SELECT * FROM user;
-
-SELECT * FROM task;
-
-SELECT * FROM task_user;
-
-DELETE FROM task_user WHERE user_id = 2;
-DELETE FROM task_user WHERE user_id = 3;
-
-SELECT * FROM task WHERE DATE(start_date) > DATE('2023-09-17') OR DATE(start_date) = DATE('2023-09-15')
-

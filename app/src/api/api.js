@@ -80,6 +80,29 @@ export const getAllTasks = () => {
     });
 };
 
+export const getAllTasksInRadius = (distance, latlng) => {
+  return fetch(
+    `${api}/v1/tasks/within/${distance}/center/${latlng}
+  `,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    })
+    .catch((error) => {
+      console.error("Error fetching tasks:", error);
+      return [];
+    });
+};
+
 export const getTaskById = (taskId) => {
   return fetch(`${api}/v1/tasks/${taskId}`, {
     headers: {

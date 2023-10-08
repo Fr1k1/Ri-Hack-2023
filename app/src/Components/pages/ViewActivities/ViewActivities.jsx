@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./ViewActivities.scss";
-import { getAllTasks } from "../../../api/api";
+import { getAllTasks, getAllTasksInRadius } from "../../../api/api";
 import TaskCard from "../../atoms/TaskCard";
 import { Sliders, X } from "@phosphor-icons/react/dist/ssr";
 import Leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import RadiusSlider from "../../atoms/RadiusSlider/RadiusSlider";
+import Button from "../../atoms/Button";
 
 const ViewActivities = () => {
   const [activities, setActivities] = useState([]);
@@ -46,6 +47,19 @@ const ViewActivities = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
+  const search = async () => {
+    let latLng = `${marker[0]},${marker[1]}`;
+    console.log(latLng);
+
+    const allActivities = await getAllTasksInRadius(radius, latLng);
+    console.log(allActivities);
+
+    const filteredActivities = allActivities.data.tasks.filter(
+      (task) => task.is_activity === 1
+    );
+    setActivities(filteredActivities);
+  };
+
   return (
     <div className="all-activities-wrapper">
       <div className="applied-filters">
@@ -78,6 +92,9 @@ const ViewActivities = () => {
               setRadius={setRadius}
               onChange={handleRadiusChange}
             />
+          </div>
+          <div className="btn-container">
+            <Button onClick={search}>Search</Button>
           </div>
         </div>
       )}

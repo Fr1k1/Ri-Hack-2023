@@ -7,14 +7,15 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 let server
 let workerThread
-  ; (async function startServer() {
-    handleInterrupt()
-    handleGlobalErrors()
-    await connectDb()
-    workerThread = new Worker("./taskCompletitionManager.js")
-    handleProcessStop()
-    server = createServer(process.env.PORT || 3000)
-  })()
+
+(async function startServer() {
+  handleInterrupt()
+  handleGlobalErrors()
+  await connectDb()
+  workerThread = new Worker("./taskCompletitionManager.js")
+  handleProcessStop()
+  server = createServer(process.env.PORT || 3000)
+})()
 
 function handleInterrupt() {
   process.on('SIGINT', () => {

@@ -51,20 +51,19 @@ const TaskDetails = () => {
     const currentTask = await getTaskById(id);
     console.log(currentTask);
 
+    setTaskCreator({
+      firstName: currentTask.data.task.user.first_name,
+      lastName: currentTask.data.task.user.last_name,
+      email: currentTask.data.task.user.email,
+    });
+
     console.log(currentTask.data.task);
     setTask(currentTask.data.task);
     console.log(task);
   };
 
   useEffect(() => {
-    console.log(id);
     getTaskData(id);
-
-    setTaskCreator({
-      firstName: "Ime",
-      lastName: "Prezime",
-      email: "proba@gmail.com",
-    });
   }, []);
 
   const formatDate = (dateString) => {

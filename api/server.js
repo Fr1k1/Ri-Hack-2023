@@ -6,19 +6,21 @@ import { EOL } from 'os'
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 let server
-
-;(async function startServer() {
-  handleInterrupt()
-  handleGlobalErrors()
-  await connectDb()
-  new Worker("./taskCompletitionManager.js")
-  server = createServer(process.env.PORT || 3000)
-})()
+let workerThread
+  ; (async function startServer() {
+    handleInterrupt()
+    handleGlobalErrors()
+    await connectDb()
+    workerThread = new Worker("./taskCompletitionManager.js")
+    handleProcessStop()
+    server = createServer(process.env.PORT || 3000)
+  })()
 
 function handleInterrupt() {
   process.on('SIGINT', () => {
     server?.close(() => {
       console.info(`[ INFO ] ${new Date()} - received SIGINT, shutting down...`)
+      process.exit(1)
     })
   })
 }
@@ -47,6 +49,13 @@ function handleUncaughtExceptions() {
       console.error('Uncaught Exception - shutting down...')
       process.exit(1)
     })
+  })
+}
+
+function handleProcessStop() {
+  process.on('exit', () => {
+    console.log('Parent process is exiting. Terminating worker...')
+    workerThread.terminate()
   })
 }
 

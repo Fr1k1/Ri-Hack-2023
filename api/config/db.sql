@@ -60,3 +60,5 @@ INSERT OR IGNORE INTO task_difficulty (name) VALUES
     ('easy'),
     ('medium'),
     ('hard');
+
+SELECT * FROM task_difficulty;

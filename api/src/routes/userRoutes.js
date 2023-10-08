@@ -23,4 +23,7 @@ router.route('/current')
 router.route('/current/task-history')
   .get(userController.getCurrentTaskHistory)
 
+router.route('/current/pending-review')
+  .get(userController.getPendingReviews)
+
 export default router

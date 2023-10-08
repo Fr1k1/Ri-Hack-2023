@@ -80,3 +80,25 @@ export const getCurrentTaskHistory = catchAsync(async (req, res) => {
     data: { tasks }
   })
 })
+
+export const getPendingReviews = catchAsync(async (req, res) => {
+  const ownerTasks = (await exec('SELECT id FROM task WHERE user_id = ? AND status_id = 4;', [req.user.id])).map(it => it.id)
+
+  const reviews = []
+  for (let taskId of ownerTasks) {
+    const userIds = (await exec('SELECT user_id FROM task_user WHERE task_id = ? AND rating IS NULL AND COALESCE(valid_until, strftime(\'%s\', \'now\') * 1001) > strftime(\'%s\', \'now\') * 1000;', [taskId])).map(it => it.user_id)
+
+    for (let userId of userIds) {
+      reviews.push({
+        taskId,
+        user: (await exec('SELECT * FROM user WHERE id = ?', [userId]))[0]
+      })
+    }
+  }
+
+  res.status(200).json({
+    status: 'success',
+    results: reviews.length,
+    data: { reviews }
+  })
+})

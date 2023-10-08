@@ -8,9 +8,7 @@ const History = () => {
 
   const getData = async () => {
     const allActivities = await getHistoryTasks();
-    const filteredActivities = allActivities.data.tasks.filter(
-      (task) => task.is_activity === 1
-    );
+    const filteredActivities = allActivities.data.tasks;
     setActivities(filteredActivities);
   };
 

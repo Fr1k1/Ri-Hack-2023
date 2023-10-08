@@ -18,6 +18,7 @@ import { getTaskById } from "../../../api/api";
 import Leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { acceptJob } from "../../../api/api";
 
 const TaskDetails = () => {
   const position = [45.5105190562796, 15.693413086588];
@@ -32,8 +33,14 @@ const TaskDetails = () => {
     email: "",
   });
 
-  const acceptJob = () => {
-    console.log("accept job");
+  const accept = async () => {
+    try {
+      const response = await acceptJob(id);
+
+      console.log("You accepted job");
+    } catch {
+      console.log("You failed to join job");
+    }
   };
 
   const getTaskData = async (id) => {
@@ -113,7 +120,7 @@ const TaskDetails = () => {
               <Marker position={[task.lat, task.lng]}></Marker>
             </MapContainer>
           </div>
-          <Button onClick={acceptJob}>Accept job</Button>
+          <Button onClick={accept}>Accept job</Button>
           <TaskOfferUserCard user={taskCreator} />
         </div>
       ) : (

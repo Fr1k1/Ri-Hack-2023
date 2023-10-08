@@ -185,3 +185,23 @@ export const getHistoryTasks = () => {
       return [];
     });
 };
+
+export async function acceptJob(id) {
+  const response = await fetch(`${api}/v1/tasks/${id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const responseData = await response.json();
+
+  console.log("Uspjesno prihvacanje posla");
+
+  if (!response.ok) {
+    throw new Error("Failed to join job");
+  }
+
+  return responseData;
+}

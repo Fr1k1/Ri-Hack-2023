@@ -53,18 +53,19 @@ const TaskDetails = () => {
 
     console.log(currentTask.data.task);
     setTask(currentTask.data.task);
+
+    console.log("Jajajja", currentTask.data.task.user);
+    setTaskCreator({
+      firstName: currentTask.data.task.user.first_name,
+      lastName: currentTask.data.task.user.last_name,
+      email: currentTask.data.task.user.email,
+    });
     console.log(task);
   };
 
   useEffect(() => {
     console.log(id);
     getTaskData(id);
-
-    setTaskCreator({
-      firstName: "Ime",
-      lastName: "Prezime",
-      email: "proba@gmail.com",
-    });
   }, []);
 
   const formatDate = (dateString) => {
@@ -78,9 +79,7 @@ const TaskDetails = () => {
 
   return (
     <div className="task-details-wrapper">
-      <h3>
-        {task.name} {id}
-      </h3>
+      <h3>{task.name}</h3>
       {Object.keys(task).length > 0 ? (
         <div className="task-details-info">
           <div className="task-details-info-item">

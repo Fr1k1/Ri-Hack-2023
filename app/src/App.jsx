@@ -11,6 +11,8 @@ import ViewActivities from "./Components/pages/ViewActivities/ViewActivities";
 import ViewChores from "./Components/pages/ViewChores/ViewChores";
 import AddNewTask from "./Components/pages/AddNewTask/AddNewTask";
 import History from "./Components/pages/History/History";
+import ReviewProfile from "./Components/pages/ReviewProfile/ReviewProfile";
+import Reviews from "./Components/pages/Reviews/Reviews";
 import ProtectedRoute from "./Components/atoms/ProtectedRoute/ProtectedRoute";
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
           <Route path="/activities" element={<ViewActivities />} />
           <Route path="/add-task" element={<AddNewTask />} />
           <Route path="/history" element={<History />} />
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/review-profile" element={<ReviewProfile />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

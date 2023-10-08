@@ -25,8 +25,12 @@ const NavbarMobile = () => {
   const isChoresPage = location.pathname === "/chores";
   const isActivitiesPage = location.pathname === "/activities";
   const isHistoryPage = location.pathname === "/history";
+
+  const isReviewProfilePage = location.pathname === "/review-profile";
   const isActivityDetailsPage =
     location.pathname.startsWith("/tasks") && location.pathname !== "/tasks";
+
+  const isReviewsPage = location.pathname === "/reviews";
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -66,6 +70,10 @@ const NavbarMobile = () => {
               ? "History"
               : isActivityDetailsPage
               ? "Details"
+              : isReviewsPage
+              ? "Reviews"
+              : isReviewProfilePage
+              ? "Review profile"
               : "Nest drugo"}
           </h2>
         </div>

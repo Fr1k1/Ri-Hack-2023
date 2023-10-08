@@ -214,6 +214,10 @@ export const getTasksWithin = catchAsync(async (req, res, next) => {
   console.info({ query })
   const tasks = await exec(query, [])
 
+  for (let i = 0; i < tasks.length; i++) {
+    tasks[i].user = (await exec('SELECT * FROM user WHERE id = ?', [tasks[i].user_id]))[0]
+  }
+
   res.status(200).json({
     status: 'success',
     results: tasks.length,

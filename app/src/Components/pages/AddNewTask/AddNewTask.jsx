@@ -8,6 +8,7 @@ import Leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { notifySuccess, notifyFailure } from "../../atoms/Toast/Toast";
+import { useNavigate } from "react-router";
 
 const AddNewTask = () => {
   const [latLng, setLatLng] = useState({});
@@ -25,6 +26,7 @@ const AddNewTask = () => {
     lat: marker[0],
     lng: marker[1],
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -48,6 +50,7 @@ const AddNewTask = () => {
       const res = await addTask(task);
       console.log(res);
       notifySuccess("Successfully added task!!");
+      navigate("/");
     } catch {
       notifyFailure();
     }

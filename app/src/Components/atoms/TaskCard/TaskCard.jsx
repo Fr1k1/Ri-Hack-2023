@@ -52,7 +52,7 @@ const TaskCard = ({ task }) => {
             <div className="task-card-content-item">
               <img src={noImage} alt="user-image" />
               <p>
-                {task.user.first_name} {task.user.last_name}
+                {task.user?.first_name} {task.user?.last_name}
               </p>
             </div>
             <div className="task-card-content-item">

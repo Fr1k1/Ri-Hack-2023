@@ -19,6 +19,7 @@ import Leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { acceptJob } from "../../../api/api";
+import { notifySuccess, notifyFailure } from "../../Toast/Toast";
 
 const TaskDetails = () => {
   const position = [45.5105190562796, 15.693413086588];
@@ -36,10 +37,12 @@ const TaskDetails = () => {
   const accept = async () => {
     try {
       const response = await acceptJob(id);
+      notifySuccess("You accepted the job!");
 
       console.log("You accepted job");
     } catch {
       console.log("You failed to join job");
+      notifyFailure();
     }
   };
 

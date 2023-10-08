@@ -7,6 +7,7 @@ import { addTask } from "../../../api/api";
 import Leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { notifySuccess, notifyFailure } from "../../Toast/Toast";
 
 const AddNewTask = () => {
   const [latLng, setLatLng] = useState({});
@@ -28,9 +29,13 @@ const AddNewTask = () => {
   const addNewTask = async () => {
     console.log(task);
     console.log(task.lat + " " + task.lng);
-
-    const res = await addTask(task);
-    console.log(res);
+    try {
+      const res = await addTask(task);
+      console.log(res);
+      notifySuccess("Successfully added task!!");
+    } catch {
+      notifyFailure();
+    }
   };
   const handleInputChange = (name, value) => {
     setTaskData((prevData) => ({

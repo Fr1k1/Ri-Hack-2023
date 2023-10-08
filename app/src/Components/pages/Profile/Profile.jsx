@@ -11,6 +11,8 @@ import {
 } from "../../../api/api";
 // import FileInput from "../../FileInput/FileInput";
 
+import { notifySuccess, notifyFailure } from "../../atoms/Toast/Toast";
+
 const Profile = () => {
   const [loggedUser, setLoggedUser] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
@@ -23,16 +25,17 @@ const Profile = () => {
     setIsEdit(false);
 
     try {
-      // Assuming you have an update function in your API file
       await editLoggedUser({
-        id: loggedUser.id, // Assuming your logged user object has an ID property
-        firstName: loggedUser.first_name, // Assuming the correct property names
-        lastName: loggedUser.last_name, // Assuming the correct property names
-        email: loggedUser.email, // Assuming the correct property names
-        // Add other properties you want to update
+        id: loggedUser.id,
+        firstName: loggedUser.first_name,
+        lastName: loggedUser.last_name,
+        email: loggedUser.email,
       });
+
+      notifySuccess("Successfully edited profile!");
     } catch (error) {
       console.error("Error updating user data:", error);
+      notifyFailure();
     }
   };
 

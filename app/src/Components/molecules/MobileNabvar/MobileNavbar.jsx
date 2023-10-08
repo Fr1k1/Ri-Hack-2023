@@ -42,12 +42,14 @@ const NavbarMobile = () => {
           className={openNav ? "hidden" : "iconBar"}
           size={32}
           color="white"
+          style={{ cursor: "pointer" }}
         />
         <X
           onClick={navHandler}
           className={openNav ? "iconBar " : "hidden"}
           size={32}
           color="white"
+          style={{ cursor: "pointer" }}
         ></X>
         <div className="dynamic-header-text-wrapper">
           <h2>

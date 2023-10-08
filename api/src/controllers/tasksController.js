@@ -194,7 +194,7 @@ export const getTasksWithin = catchAsync(async (req, res, next) => {
   const latRad = lat * (Math.PI / 180)
   const lngRad = lng * (Math.PI / 180)
 
-  const query = `SELECT id, name, lat, lng, (
+  const query = `SELECT *, id, name, lat, lng, (
       ${radius} * acos(
         cos(${latRad}) *
         cos(lat * (PI() / 180)) *

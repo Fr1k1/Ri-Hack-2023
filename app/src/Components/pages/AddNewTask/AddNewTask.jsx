@@ -11,7 +11,6 @@ import "leaflet/dist/leaflet.css";
 const AddNewTask = () => {
   const [latLng, setLatLng] = useState({});
   const [marker, setMarker] = useState([45.40473607821249, 16.34990858459468]);
-
   const [task, setTaskData] = useState({
     name: "",
     reward: 0,
@@ -161,7 +160,7 @@ const AddNewTask = () => {
           />
           <Marker position={marker}></Marker>
         </MapContainer>
-      </div>{" "}
+      </div>
       <Input
         placeholder={"Describe your task"}
         label={"Description:"}

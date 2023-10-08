@@ -3,4 +3,14 @@
   flex-direction: column;
   gap: 16px;
   padding: 16px;
+
+  .applied-filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+     svg{
+      color: #6866AD;
+     }
+  }
 }

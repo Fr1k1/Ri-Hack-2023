@@ -87,10 +87,12 @@ const TaskDetails = () => {
       <h3>{task.name}</h3>
       {Object.keys(task).length > 0 ? (
         <div className="task-details-info">
-          <div className="task-details-info-item">
-            <Money size={24} className="icon" />
-            <p>Reward: {task.reward} €</p>
-          </div>
+          {task.is_activity == 0 && (
+            <div className="task-details-info-item">
+              <Money size={24} className="icon" />
+              <p>Reward: {task.reward} €</p>
+            </div>
+          )}
           <div className="task-details-info-item">
             <Info size={24} className="icon" />
             <p>Description: {task.description}</p>

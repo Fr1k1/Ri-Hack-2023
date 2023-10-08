@@ -59,6 +59,7 @@ const Login = () => {
             placeholder={"Password"}
             label={"Password"}
             name="password"
+            type="password"
             value={user?.password}
             onChange={handleUserPasswordChange}
           />

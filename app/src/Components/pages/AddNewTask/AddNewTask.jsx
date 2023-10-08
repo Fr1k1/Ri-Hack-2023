@@ -13,9 +13,9 @@ const AddNewTask = () => {
   const [marker, setMarker] = useState([45.40473607821249, 16.34990858459468]);
   const [task, setTaskData] = useState({
     name: "",
-    reward: 0,
+    reward: 1,
     statusId: 1,
-    groupSize: "",
+    groupSize: 1,
     description: "",
     startDate: "",
     endDate: "",
@@ -44,8 +44,12 @@ const AddNewTask = () => {
     console.log(task);
     console.log(task.lat + " " + task.lng);
 
-    const res = await addTask(task);
-    console.log(res);
+    try {
+      const res = await addTask(task);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleInputChange = (name, value) => {
     setTaskData((prevData) => ({

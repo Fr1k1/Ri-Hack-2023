@@ -80,6 +80,29 @@ export const getAllTasks = () => {
     });
 };
 
+export const getAllTasksInRadius = (distance, latlng) => {
+  return fetch(
+    `${api}/v1/tasks/within/${distance}/center/${latlng}
+  `,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    })
+    .catch((error) => {
+      console.error("Error fetching tasks:", error);
+      return [];
+    });
+};
+
 export const getTaskById = (taskId) => {
   return fetch(`${api}/v1/tasks/${taskId}`, {
     headers: {
@@ -162,6 +185,45 @@ export async function deleteLoggedUser() {
 
   if (!response.ok) {
     throw new Error("Failed to get logged user");
+  }
+
+  return responseData;
+}
+
+export const getHistoryTasks = () => {
+  return fetch(`${api}/v1/users/current/task-history`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
+    })
+    .catch((error) => {
+      console.error("Error fetching tasks:", error);
+      return [];
+    });
+};
+
+export async function acceptJob(id) {
+  const response = await fetch(`${api}/v1/tasks/${id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const responseData = await response.json();
+
+  console.log("Uspjesno prihvacanje posla");
+
+  if (!response.ok) {
+    throw new Error("Failed to join job");
   }
 
   return responseData;

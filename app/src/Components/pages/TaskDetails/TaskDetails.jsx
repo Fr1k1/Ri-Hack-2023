@@ -18,6 +18,8 @@ import { getTaskById } from "../../../api/api";
 import Leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { acceptJob } from "../../../api/api";
+import { notifySuccess, notifyFailure } from "../../atoms/Toast/Toast";
 
 const TaskDetails = () => {
   const position = [45.5105190562796, 15.693413086588];
@@ -32,8 +34,16 @@ const TaskDetails = () => {
     email: "",
   });
 
-  const acceptJob = () => {
-    console.log("accept job");
+  const accept = async () => {
+    try {
+      const response = await acceptJob(id);
+      notifySuccess("You accepted the job!");
+
+      console.log("You accepted job");
+    } catch {
+      console.log("You failed to join job");
+      notifyFailure();
+    }
   };
 
   const getTaskData = async (id) => {
@@ -43,18 +53,19 @@ const TaskDetails = () => {
 
     console.log(currentTask.data.task);
     setTask(currentTask.data.task);
+
+    console.log("Jajajja", currentTask.data.task.user);
+    setTaskCreator({
+      firstName: currentTask.data.task.user.first_name,
+      lastName: currentTask.data.task.user.last_name,
+      email: currentTask.data.task.user.email,
+    });
     console.log(task);
   };
 
   useEffect(() => {
     console.log(id);
     getTaskData(id);
-
-    setTaskCreator({
-      firstName: "Ime",
-      lastName: "Prezime",
-      email: "proba@gmail.com",
-    });
   }, []);
 
   const formatDate = (dateString) => {
@@ -68,9 +79,7 @@ const TaskDetails = () => {
 
   return (
     <div className="task-details-wrapper">
-      <h3>
-        {task.name} {id}
-      </h3>
+      <h3>{task.name}</h3>
       {Object.keys(task).length > 0 ? (
         <div className="task-details-info">
           <div className="task-details-info-item">
@@ -113,7 +122,7 @@ const TaskDetails = () => {
               <Marker position={[task.lat, task.lng]}></Marker>
             </MapContainer>
           </div>
-          <Button onClick={acceptJob}>Accept job</Button>
+          <Button onClick={accept}>Accept job</Button>
           <TaskOfferUserCard user={taskCreator} />
         </div>
       ) : (

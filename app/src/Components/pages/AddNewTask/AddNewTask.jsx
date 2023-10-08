@@ -7,15 +7,16 @@ import { addTask } from "../../../api/api";
 import Leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { notifySuccess, notifyFailure } from "../../atoms/Toast/Toast";
 
 const AddNewTask = () => {
   const [latLng, setLatLng] = useState({});
   const [marker, setMarker] = useState([45.40473607821249, 16.34990858459468]);
   const [task, setTaskData] = useState({
     name: "",
-    reward: "",
+    reward: 1,
     statusId: 1,
-    groupSize: "",
+    groupSize: 1,
     description: "",
     startDate: "",
     endDate: "",
@@ -25,12 +26,31 @@ const AddNewTask = () => {
     lng: marker[1],
   });
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setMarker([position.coords.latitude, position.coords.longitude]);
+        },
+        (error) => {
+          console.error("Error getting geolocation:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
+
   const addNewTask = async () => {
     console.log(task);
     console.log(task.lat + " " + task.lng);
-
-    const res = await addTask(task);
-    console.log(res);
+    try {
+      const res = await addTask(task);
+      console.log(res);
+      notifySuccess("Successfully added task!!");
+    } catch {
+      notifyFailure();
+    }
   };
   const handleInputChange = (name, value) => {
     setTaskData((prevData) => ({
@@ -133,7 +153,7 @@ const AddNewTask = () => {
       <div style={{ height: "220px", margin: "24px 0" }}>
         <MapContainer
           center={marker}
-          zoom={7}
+          zoom={6}
           scrollWheelZoom={false}
           id="map-container"
           style={{ height: "100%", minHeight: "100%" }}
@@ -145,7 +165,7 @@ const AddNewTask = () => {
           />
           <Marker position={marker}></Marker>
         </MapContainer>
-      </div>{" "}
+      </div>
       <Input
         placeholder={"Describe your task"}
         label={"Description:"}

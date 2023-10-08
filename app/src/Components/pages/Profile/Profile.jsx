@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  User,
-  Envelope,
-  Star,
-  Check,
-  PencilSimple,
-  X,
-} from "@phosphor-icons/react";
+import { User, Envelope, Star, Check } from "@phosphor-icons/react";
 import user from "../../../assets/user.png";
 import Input from "../../atoms/Input";
 import "./Profile.scss";
@@ -16,45 +9,49 @@ import {
   editLoggedUser,
   getLoggedUser,
 } from "../../../api/api";
+// import FileInput from "../../FileInput/FileInput";
+import Swal from "sweetalert2";
+
+import { notifySuccess, notifyFailure } from "../../atoms/Toast/Toast";
 
 const Profile = () => {
   const [loggedUser, setLoggedUser] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
 
-  const handleEdit = () => {
-    console.log("edit");
-    setIsEdit(!isEdit);
-  };
   const handleDelete = async () => {
-    await deleteLoggedUser();
-    console.log("delete");
+    // Show SweetAlert confirmation
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // User confirmed, proceed to delete
+        await deleteLoggedUser();
+        Swal.fire("Deleted!", "Your account has been deleted.", "success");
+      }
+    });
   };
   const handleSaveChanges = async () => {
     setIsEdit(false);
 
     try {
-      // Assuming you have an update function in your API file
       await editLoggedUser({
-        id: loggedUser.id, // Assuming your logged user object has an ID property
-        firstName: loggedUser.first_name, // Assuming the correct property names
-        lastName: loggedUser.last_name, // Assuming the correct property names
-        email: loggedUser.email, // Assuming the correct property names
-        // Add other properties you want to update
+        id: loggedUser.id,
+        firstName: loggedUser.first_name,
+        lastName: loggedUser.last_name,
+        email: loggedUser.email,
       });
+
+      notifySuccess("Successfully edited profile!");
     } catch (error) {
       console.error("Error updating user data:", error);
+      notifyFailure();
     }
-  };
-
-  const cancelChanges = () => {
-    setLoggedUser({
-      firstName: loggedUser.first_name,
-      lastName: loggedUser.last_name,
-      email: loggedUser.email,
-      ratingsAverage: loggedUser.ratings_average,
-      ratingsQuantity: loggedUser.ratings_quantity,
-      //image: defaultUserData.image,
-    });
   };
 
   useEffect(() => {
@@ -75,9 +72,12 @@ const Profile = () => {
       {loggedUser ? (
         <div className="profile-container">
           <div className="edit-image-container">
-            <img src={user} alt="user-image" />{" "}
+            <label htmlFor="file-upload">
+              <img src={user} alt="user-image" />
+            </label>
           </div>
           <div className="profile-user-data">
+            {/* <FileInput onFileChange={handleFileChange} /> */}
             <div className="profile-user-data-row">
               <User size={32} weight="bold" />
               <Input

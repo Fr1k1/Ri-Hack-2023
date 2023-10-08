@@ -29,6 +29,11 @@ const NavbarMobile = () => {
 
   const isActivitiesPage = location.pathname === "/activities";
 
+  const isHistoryPage = location.pathname === "/history";
+
+  const isActivityDetailsPage =
+    location.pathname.startsWith("/tasks") && location.pathname !== "/tasks";
+
   return (
     <div>
       <div className="icons">
@@ -37,12 +42,14 @@ const NavbarMobile = () => {
           className={openNav ? "hidden" : "iconBar"}
           size={32}
           color="white"
+          style={{ cursor: "pointer" }}
         />
         <X
           onClick={navHandler}
           className={openNav ? "iconBar " : "hidden"}
           size={32}
           color="white"
+          style={{ cursor: "pointer" }}
         ></X>
         <div className="dynamic-header-text-wrapper">
           <h2>
@@ -56,6 +63,10 @@ const NavbarMobile = () => {
               ? "Chores"
               : isActivitiesPage
               ? "Activities"
+              : isHistoryPage
+              ? "History"
+              : isActivityDetailsPage
+              ? "Details"
               : "Nest drugo"}
           </h2>
         </div>

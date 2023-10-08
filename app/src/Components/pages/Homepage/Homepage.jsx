@@ -1,6 +1,6 @@
 import React from "react";
 import "./Homepage.scss";
-import HomepageCard from "../../HomepageCard/HomepageCard";
+import HomepageCard from "../../atoms/HomepageCard";
 import AddJobImage from "../../../assets/add_task.png";
 import ChoresImage from "../../../assets/deforestation.png";
 import ActivitiesImage from "../../../assets/hiking.png";

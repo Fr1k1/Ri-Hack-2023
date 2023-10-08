@@ -4,29 +4,23 @@ import * as authController from '../controllers/authController.js'
 
 const router = express.Router()
 
+router.use(authController.authenticate)
+
 router.get('/within/:distance/center/:latlng', tasksController.getTasksWithin)
 
 router.route('/')
   .get(tasksController.getAllTasks)
-  .post(
-    authController.authenticate,
-    tasksController.createTask
-  )
+  .post(tasksController.createTask)
 
 router.route('/:id')
   .get(tasksController.getTask)
-  .patch(
-    authController.authenticate,
-    tasksController.updateTask
-  )
-  .delete(
-    authController.authenticate,
-    tasksController.deleteTask
-  )
+  .patch(tasksController.updateTask)
+  .delete(tasksController.deleteTask)
 
 router.route('/:taskId')
-  .post(authController.authenticate,
-    tasksController.addUserToTask
-  )
+  .post(tasksController.addUserToTask)
+
+router.route('/:taskId/users/:userId/ratings/:rating')
+  .post(tasksController.rateUser)
 
 export default router

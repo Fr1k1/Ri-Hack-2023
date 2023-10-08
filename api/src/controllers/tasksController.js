@@ -105,7 +105,7 @@ export const addUserToTask = catchAsync(async (req, res, next) => {
   const userTasks = await exec('SELECT * FROM task_user WHERE task_id = ?', [taskId])
 
   if (!fetchedTask) {
-    return next(new AppError("Task doesn't exist.", 404))
+    return next(new AppError('Task doesn\'t exist.', 404))
   }
 
   if (!taskId || !userId) {
@@ -190,7 +190,7 @@ export const getTasksWithin = catchAsync(async (req, res, next) => {
   const latRad = lat * (Math.PI / 180)
   const lngRad = lng * (Math.PI / 180)
 
-  const query = `SELECT id, name, lat, lng, (
+  const query = `SELECT *, id, name, lat, lng, (
       ${radius} * acos(
         cos(${latRad}) *
         cos(lat * (PI() / 180)) *
@@ -218,6 +218,36 @@ export const getTasksWithin = catchAsync(async (req, res, next) => {
     status: 'success',
     results: tasks.length,
     data: { tasks }
+  })
+})
+
+export const rateUser = catchAsync(async (req, res, next) => {
+  const { taskId, userId, rating } = req.params
+
+  const doc = (await exec('SELECT * FROM task_user WHERE task_id = ? AND user_id = ? AND rating IS NULL;', [taskId, userId]))[0]
+
+  if (!doc) {
+    return next(new AppError('Cannot set rating for a given task and user.'))
+  }
+
+  if (req.user.id == userId) {
+    return next(new AppError('Cannot set your own rating.'))
+  }
+
+  await exec('UPDATE task_user SET rating = ? WHERE user_id = ? AND task_id = ?', [rating, userId, taskId])
+
+  if (rating > 0) {
+    await exec(`UPDATE user SET 
+      ratings_average = ((ratings_average * ratings_quantity) + ?) / (ratings_quantity + 1),
+      ratings_quantity = ratings_quantity + 1
+      WHERE id = ?;`, [rating, userId])
+  }
+
+  const user = await exec('SELECT * FROM user WHERE id = ?', [userId])
+
+  res.status(200).json({
+    status: 'success',
+    data: { user }
   })
 })
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { List } from "@phosphor-icons/react";
 import { X } from "@phosphor-icons/react/dist/ssr";
 import "./MobileNavbar.scss";
@@ -17,23 +17,22 @@ const NavbarMobile = () => {
     setOpenNav(false);
   };
 
+  const navigate = useNavigate();
   const location = useLocation();
-
   const isAddJobPage = location.pathname === "/add-task";
-
   const isHomepage = location.pathname === "/" || location.pathname === "/";
-
   const isProfilePage = location.pathname === "/my-profile";
-
   const isChoresPage = location.pathname === "/chores";
-
   const isActivitiesPage = location.pathname === "/activities";
-
   const isHistoryPage = location.pathname === "/history";
-
   const isActivityDetailsPage =
     location.pathname.startsWith("/tasks") && location.pathname !== "/tasks";
 
+  const logout = () => {
+    localStorage.removeItem("token");
+
+    navigate("/login");
+  };
   return (
     <div>
       <div className="icons">
@@ -83,7 +82,9 @@ const NavbarMobile = () => {
             <Link to="/my-profile">My profile</Link>
           </li>
         </ul>
-        <Button icon={"Hrc"}>Odjavi se</Button>
+        <Button icon={"Hrc"} onClick={logout}>
+          Log out
+        </Button>
       </nav>
     </div>
   );

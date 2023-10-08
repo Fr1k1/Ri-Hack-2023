@@ -11,12 +11,20 @@ import ViewActivities from "./Components/pages/ViewActivities/ViewActivities";
 import ViewChores from "./Components/pages/ViewChores/ViewChores";
 import AddNewTask from "./Components/pages/AddNewTask/AddNewTask";
 import History from "./Components/pages/History/History";
+import ProtectedRoute from "./Components/atoms/ProtectedRoute/ProtectedRoute";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/" element={<Homepage />} />
           <Route path="/tasks/:id" element={<TaskDetails />} />
           <Route path="/tasks" element={<Tasks />} />

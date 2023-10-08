@@ -51,6 +51,12 @@ const TaskDetails = () => {
     const currentTask = await getTaskById(id);
     console.log(currentTask);
 
+    setTaskCreator({
+      firstName: currentTask.data.task.user.first_name,
+      lastName: currentTask.data.task.user.last_name,
+      email: currentTask.data.task.user.email,
+    });
+
     console.log(currentTask.data.task);
     setTask(currentTask.data.task);
 
@@ -64,7 +70,6 @@ const TaskDetails = () => {
   };
 
   useEffect(() => {
-    console.log(id);
     getTaskData(id);
   }, []);
 

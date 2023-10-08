@@ -7,7 +7,7 @@ import { addTask } from "../../../api/api";
 import Leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { notifySuccess, notifyFailure } from "../../Toast/Toast";
+import { notifySuccess, notifyFailure } from "../../atoms/Toast/Toast";
 
 const AddNewTask = () => {
   const [latLng, setLatLng] = useState({});

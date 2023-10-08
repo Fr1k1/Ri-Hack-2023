@@ -9,7 +9,7 @@ import {
   editLoggedUser,
   getLoggedUser,
 } from "../../../api/api";
-import FileInput from "../../FileInput/FileInput";
+// import FileInput from "../../FileInput/FileInput";
 
 const Profile = () => {
   const [loggedUser, setLoggedUser] = useState(null);

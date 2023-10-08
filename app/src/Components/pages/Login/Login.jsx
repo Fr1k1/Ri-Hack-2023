@@ -25,24 +25,13 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-    //console.log("Postavljeni podaci:", staffData);
     e.preventDefault();
-
-    //const isValid = validateForm();
-
-    // if (isValid) {
     try {
       const response = await loginUser(user);
       localStorage.setItem("token", response.token);
       console.log("Uspjesno prijavljen");
       navigate("/");
-      //notifySuccess("Uspješno dodano osoblje");
-      //console.log("Tenant submitted successfully");
-    } catch (error) {
-      //console.log("Error submitting tenant:", error);
-      //notifyFailure();
-    }
-    //}
+    } catch (error) {}
   };
 
   const handleUserEmailChange = (e) => {

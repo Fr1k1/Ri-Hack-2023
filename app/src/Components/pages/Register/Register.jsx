@@ -3,7 +3,7 @@ import "./Register.scss";
 import Input from "../../atoms/Input";
 import Button from "../../atoms/Button";
 import { addNewUser } from "../../../api/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [newUser, setNewUserData] = useState({
@@ -26,25 +26,15 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log("Pokusavam dodati");
-    //console.log("Postavljeni podaci:", staffData);
     e.preventDefault();
-
-    //const isValid = validateForm();
-
-    // if (isValid) {
     try {
       console.log("Novi user je", newUser);
       await addNewUser(newUser);
       console.log("Uspjesno dodan novi user");
       navigate("/login");
-      //notifySuccess("Uspješno dodano osoblje");
-      //console.log("Tenant submitted successfully");
     } catch (error) {
-      //console.log("Error submitting tenant:", error);
-      //notifyFailure();
+      console.log(error);
     }
-    //}
   };
 
   const handleUserEmailChange = (e) => {
@@ -115,6 +105,12 @@ const Register = () => {
 
           <Button type="submit">Register</Button>
         </form>
+        <div className="no-account-wrapper">
+          Already have an account?
+          <span>
+            <Link to="/login">Login</Link>
+          </span>
+        </div>
       </div>
     </div>
   );

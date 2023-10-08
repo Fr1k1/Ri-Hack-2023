@@ -1,6 +1,5 @@
 .register-page-wrapper {
-  padding-top: 100px;
-  //background-color: red;
+  padding-top: 48px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -14,8 +13,7 @@
 }
 
 .register-form-wrapper {
-  //background-color: blue;
-  height: 100%; //fill available space
+  height: 100%;
   width: 100%;
   padding: 32px;
   display: flex;

@@ -18,9 +18,13 @@ const Tasks = () => {
 
   return (
     <div className="all-tasks-wrapper">
-      {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} />
-      ))}
+      {tasks.length > 0 ? (
+        tasks.map((task) => <TaskCard key={task.id} task={task} />)
+      ) : (
+        <div className="no-data-wrapper">
+          <h3>Currently no available tasks</h3>
+        </div>
+      )}
     </div>
   );
 };

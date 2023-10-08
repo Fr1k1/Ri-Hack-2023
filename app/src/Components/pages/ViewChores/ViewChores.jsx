@@ -99,9 +99,13 @@ const ViewChores = () => {
         </div>
       )}
       <div className="all-activities-container">
-        {activities.map((task) => (
-          <TaskCard key={task.id} task={task} />
-        ))}
+        {activities.length > 0 ? (
+          activities.map((task) => <TaskCard key={task.id} task={task} />)
+        ) : (
+          <div className="no-data-wrapper">
+            <h3>Currently no available chores</h3>
+          </div>
+        )}
       </div>
     </div>
   );

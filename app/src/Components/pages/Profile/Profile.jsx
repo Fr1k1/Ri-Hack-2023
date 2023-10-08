@@ -10,6 +10,7 @@ import {
   getLoggedUser,
 } from "../../../api/api";
 // import FileInput from "../../FileInput/FileInput";
+import Swal from "sweetalert2";
 
 import { notifySuccess, notifyFailure } from "../../atoms/Toast/Toast";
 
@@ -18,8 +19,22 @@ const Profile = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   const handleDelete = async () => {
-    await deleteLoggedUser();
-    console.log("delete");
+    // Show SweetAlert confirmation
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // User confirmed, proceed to delete
+        await deleteLoggedUser();
+        Swal.fire("Deleted!", "Your account has been deleted.", "success");
+      }
+    });
   };
   const handleSaveChanges = async () => {
     setIsEdit(false);

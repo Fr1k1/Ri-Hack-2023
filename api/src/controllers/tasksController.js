@@ -100,9 +100,7 @@ export const createTask = catchAsync(async (req, res, next) => {
 export const addUserToTask = catchAsync(async (req, res, next) => {
   const { taskId } = req.params
   const userId = req.user.id
-  console.log(taskId)
 
-  console.log(userId)
   const fetchedTask = (await exec('SELECT * FROM task WHERE id = ?', [taskId]))[0]
   const userTasks = await exec('SELECT * FROM task_user WHERE task_id = ?', [taskId])
 
@@ -113,8 +111,6 @@ export const addUserToTask = catchAsync(async (req, res, next) => {
   if (!taskId || !userId) {
     return next(new AppError('Insufficient parameters.', 422))
   }
-
-  console.log(fetchedTask)
 
   if (userId == fetchedTask.user_id) {
     return next(new AppError('User who added task can\'t work in it.'))

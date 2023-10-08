@@ -21,7 +21,7 @@ export const exec = async (sql, data) => {
         err ? reject(err) : resolve(res)
       })
     } else {
-      connection.run(sql, data, function(err) {
+      connection.run(sql, data, function (err) {
         return err ? reject(err) : resolve(this)
       })
     }

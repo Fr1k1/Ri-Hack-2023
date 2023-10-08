@@ -14,9 +14,9 @@ const AddNewTask = () => {
   const [marker, setMarker] = useState([45.40473607821249, 16.34990858459468]);
   const [task, setTaskData] = useState({
     name: "",
-    reward: "",
+    reward: 1,
     statusId: 1,
-    groupSize: "",
+    groupSize: 1,
     description: "",
     startDate: "",
     endDate: "",
@@ -25,6 +25,21 @@ const AddNewTask = () => {
     lat: marker[0],
     lng: marker[1],
   });
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setMarker([position.coords.latitude, position.coords.longitude]);
+        },
+        (error) => {
+          console.error("Error getting geolocation:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   const addNewTask = async () => {
     console.log(task);
@@ -138,7 +153,7 @@ const AddNewTask = () => {
       <div style={{ height: "220px", margin: "24px 0" }}>
         <MapContainer
           center={marker}
-          zoom={7}
+          zoom={6}
           scrollWheelZoom={false}
           id="map-container"
           style={{ height: "100%", minHeight: "100%" }}
@@ -150,7 +165,7 @@ const AddNewTask = () => {
           />
           <Marker position={marker}></Marker>
         </MapContainer>
-      </div>{" "}
+      </div>
       <Input
         placeholder={"Describe your task"}
         label={"Description:"}
